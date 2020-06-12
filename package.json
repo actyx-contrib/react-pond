@@ -1,0 +1,46 @@
+{
+  "name": "@actyx-contrib/react-pond",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "clean": "rimraf ./lib ./coverage",
+    "tsc": "tsc",
+    "tsc:watch": "tsc --watch --pretty",
+    "build": "tsc -p ./tsconfig.json",
+    "build:watch": "npm run build -- --watch --pretty",
+    "build:prod": "npm run build",
+    "lint": "tsc & eslint './src/**/*.{js,ts,tsx}' & prettier './src/**/*.{js,ts,tsx}' --check",
+    "lint:fix": "tsc & eslint './src/**/*.{js,ts,tsx}' --fix & prettier './src/**/*.{js,ts,tsx}' --write",
+    "license:add": "license-check-and-add add -f add-license-config.json",
+    "license:check": "license-check-and-add check -f add-license-config.json",
+    "license:check-dep": "license-checker --production --onlyAllow 'MIT; MIT OR X11; BSD; ISC; Apache-2.0;'"
+  },
+  "author": "Actyx AG",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@actyx/pond": "^1.0.3",
+    "react": "^16.13.1",
+    "fp-ts": "1.19.4",
+    "io-ts": "1.10.1",
+    "io-ts-types": "0.4.1",
+    "rxjs": "5.5.12"
+  },
+  "devDependencies": {
+    "@types/react": "^16.9.35",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint": "^6.8.0",
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.2",
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.5"
+  },
+  "peerDependencies": {
+    "@actyx/pond": "^1.0.3"
+  }
+}
