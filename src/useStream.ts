@@ -1,20 +1,51 @@
 import * as React from 'react'
 import { Observable } from 'rxjs'
 
+/**
+ * Observe an rxjs Observable and get the last emitted value. the observable can be exchanged with setStream
+ *
+ * ## Example:
+ * ```js
+ * const Example = () => {
+ *   // create a ticker with rxjs
+ *   const [ticks, setStream] = useStream(interval(1000))
+ *
+ *   // exchange stream after 10 seconds
+ *   React.useEffect(() => {
+ *     const timeout = setTimeout(() => setStream(interval(100)), 10_000)
+ *     return () => clearTimeout(timeout)
+ *   }, [])
+ *
+ *   return <div>ticks: {ticks}</div>
+ * }
+ * ```
+ *
+ * ## Observe fish
+ *
+ * To observe the public state of a fish, please use one of the following functions:
+ *
+ * |   |   |
+ * |---|---|
+ * | @see useFish | Get the public state or feed a fish |
+ * | @see useRegistryFish | Use a registry fish to get the public states of a set of fish |
+ * | @see useRegistryFishMap | Use a registry fish with a mapper to get the public states of a set of fish |
+ *
+ * @param stream$ Observable to get the last emitted value
+ * @returns last emitted item of the stream and a setter to exchange the stream
+ */
 export const useStream = <T>(
   stream$: Observable<T> | undefined
 ): [T | undefined, (newStream$: Observable<T>) => void] => {
   const [stream, setStream] = React.useState(stream$)
-  const [state, setState] = React.useState<T | undefined>(undefined)
+  const [value, setValue] = React.useState<T | undefined>()
 
   React.useEffect(() => {
     if (stream) {
-      console.log('sub')
-      const sub = stream.subscribe(s => setState(s))
-      return () => sub && (sub.unsubscribe(), console.log('un sub'))
+      const sub = stream.subscribe(s => setValue(s))
+      return () => sub && sub.unsubscribe()
     }
     return () => undefined
   }, [stream])
 
-  return [state, setStream]
+  return [value, setStream]
 }

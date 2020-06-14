@@ -1,4 +1,4 @@
-export { Pond } from './Pond'
+export { Pond, usePond } from './Pond'
 export {
   useFish,
   useRegistryFish,
@@ -9,4 +9,3 @@ export {
   SetNewFishName
 } from './useFish'
 export { useStream } from './useStream'
-export { usePond } from './usePond'
