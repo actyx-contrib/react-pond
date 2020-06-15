@@ -17,6 +17,7 @@ export { Pond, usePond } from './Pond'
 export {
   useFish,
   useRegistryFish,
+  useRegistryFishMap,
   ReactFish,
   FeedFish,
   FishTypeEntity,

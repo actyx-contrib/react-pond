@@ -35,16 +35,11 @@ export type FeedFish<Command> = (command: Command) => Promise<void>
  */
 export type SetNewFishName = (newName: string) => void
 /** generic fish type for the registry fish */
-export type FishTypeRegistry = FishTypeImpl<unknown, unknown, unknown, ReadonlyArray<FishName>>
+export type FishTypeRegistry = FishTypeImpl<any, any, any, ReadonlyArray<FishName>>
 /** generic fish type for the registry fish with generic public state*/
-export type FishTypeRegistryMap<PublicState> = FishTypeImpl<unknown, unknown, unknown, PublicState>
+export type FishTypeRegistryMap<PublicState> = FishTypeImpl<any, any, any, PublicState>
 /** simplified type for the entity fish */
-export type FishTypeEntity<Command, PublicState> = FishTypeImpl<
-  unknown,
-  Command,
-  unknown,
-  PublicState
->
+export type FishTypeEntity<Command, PublicState> = FishTypeImpl<any, Command, any, PublicState>
 
 /** ReactFish type */
 export type ReactFish<Command, PublicState> = {
