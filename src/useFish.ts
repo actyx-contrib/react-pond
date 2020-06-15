@@ -19,7 +19,6 @@ import * as React from 'react'
 import { Observable } from 'rxjs'
 import { combineLatest } from 'rxjs/observable/combineLatest'
 import { usePond } from './Pond'
-
 import { map, switchMap, share } from 'rxjs/operators'
 
 /**

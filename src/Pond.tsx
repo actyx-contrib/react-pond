@@ -16,19 +16,29 @@
 import { Pond as PondType } from '@actyx/pond'
 import * as React from 'react'
 
+/** @internal */
 type PondContext = PondType | undefined
 
+/** @internal */
 export const pondContext = React.createContext<PondContext>(undefined)
 
+/**
+ * Pond component properties to get some feedback
+ */
 type PondProps = {
+  /** children components are shown when the init is done */
   children: React.ReactNode
+  /** component to show during the connect (very quick) */
   loadComponent?: JSX.Element
+  /** error callback the the pond is not able to reach actyxOS locally */
   onError?: (error: unknown) => void
 }
 
+/** @internal */
 let singletonPond: PondType | undefined = undefined
+
 /**
- * Top level
+ * Top level component to initialize the pond
  * @param properties {children, loadComponent, onError} @see PondProps
  */
 export const Pond = ({ children, loadComponent, onError }: PondProps) => {

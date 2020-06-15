@@ -14,9 +14,9 @@ npm install @actyx-contrib/react-pond
 
 # 📖  Documentation and detailed examples
 
-Read the full documentation here: [link to documentation]
+You can access the full api documentation and related examples by visiting: [https://actyx-contrib.github.io/react-pond](https://actyx-contrib.github.io/react-pond/)
 
-Checkout the repository to get a detailed example with some fish [https://github.com/actyx-contrib/react-pond](https://github.com/actyx-contrib/react-pond)
+You will find detailed examples [here](https://github.com/actyx-contrib/react-pond/tree/master/example)
 
 # 🤓 Quick start
 

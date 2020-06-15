@@ -1,6 +1,6 @@
 {
   "name": "@actyx-contrib/react-pond",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Use the Actyx-Pond framework fully integrated in React",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -10,7 +10,7 @@
     "tsc:watch": "tsc --watch --pretty",
     "build": "tsc -p ./tsconfig.json",
     "build:watch": "npm run build -- --watch --pretty",
-    "build:prod": "npm run build",
+    "build:doc": "rimraf ./docs & typedoc --options typedoc.json",
     "lint": "tsc & eslint './src/**/*.{js,ts,tsx}' & prettier './src/**/*.{js,ts,tsx}' --check",
     "lint:fix": "tsc & eslint './src/**/*.{js,ts,tsx}' --fix & prettier './src/**/*.{js,ts,tsx}' --write",
     "license:add": "license-check-and-add add -f add-license-config.json",
@@ -40,6 +40,7 @@
     "react-dom": "^16.13.1",
     "rimraf": "^3.0.2",
     "ts-loader": "^7.0.5",
+    "typedoc": "^0.17.7",
     "typescript": "^3.9.5"
   },
   "peerDependencies": {
