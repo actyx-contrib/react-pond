@@ -5,6 +5,7 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
+    "prepack": "npm run build",
     "clean": "rimraf ./lib ./coverage",
     "tsc": "tsc",
     "tsc:watch": "tsc --watch --pretty",
