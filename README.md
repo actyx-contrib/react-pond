@@ -1,4 +1,4 @@
-<img width="130px" src="./icon.png">
+<img width="130px" src="https://raw.githubusercontent.com/actyx-contrib/react-pond/master/icon.png?token=AATHWQIC5RWS62GY3OINH3C645MHQ">
 
 # React-Pond
 
@@ -6,7 +6,7 @@ Use the [Actyx-Pond framework](https://developer.actyx.com/docs/pond/getting-sta
 
 ## 📦 Installation
 
-React-Pond is available as an [npm package](https://www.npmjs.com/package/@actyx-contrib/react-pond).
+React-Pond is available as a [npm package](https://www.npmjs.com/package/@actyx-contrib/react-pond).
 
 ```shell
 npm install @actyx-contrib/react-pond
@@ -38,7 +38,7 @@ export const wireUI = () =>
 
 ## 🐟 `useFish`
 
-Write your distributed logic in the well known fish and get the public state as easy as possible
+Write your distributed logic with the well known fish and get the public state as easy as possible
 
 ### Example
 
@@ -67,7 +67,7 @@ If you registry fish is not as strateforward, use the mapper function in `useReg
 
 ---
 **NOTE**
-Learn more about registry fish here: [developers.actyx.com/blog/registry]() 
+Learn more about registry fish here: [https://developer.actyx.com/blog/2020/06/15/registry-fishes](https://developer.actyx.com/blog/2020/06/15/registry-fishes) 
 
 Checkout the @actyx-contrib/registry project on [GitHub](https://github.com/actyx-contrib/registry) or install it with `npm install @actyx-contrib/registry`
 
