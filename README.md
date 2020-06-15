@@ -2,7 +2,7 @@
 
 # React-Pond
 
-Use the [Actyx-Pond framework](https://developer.actyx.com/docs/pond/getting-started/) fully integrated in React. Expend you tool chain with `<Pond>`, `useFish`, `useRegistryFish`, `useRegistryFishMap`, `usePond`, and `useStream` to speed up your UI projects and write distributed apps in a couple of hours.  
+Use the [Actyx-Pond framework](https://developer.actyx.com/docs/pond/getting-started/) fully integrated into React. Expand your toolchain with `<Pond>`, `useFish`, `useRegistryFish`, `useRegistryFishMap`, `usePond`, and `useStream` to speed up your UI projects and write distributed apps in a couple of hours.  
 
 ## 📦 Installation
 
@@ -14,7 +14,7 @@ npm install @actyx-contrib/react-pond
 
 # 📖  Documentation and detailed examples
 
-You can access the full api documentation and related examples by visiting: [https://actyx-contrib.github.io/react-pond](https://actyx-contrib.github.io/react-pond/)
+You can access the full API documentation and related examples by visiting: [https://actyx-contrib.github.io/react-pond](https://actyx-contrib.github.io/react-pond/)
 
 You will find detailed examples [here](https://github.com/actyx-contrib/react-pond/tree/master/example)
 
@@ -38,7 +38,7 @@ export const wireUI = () =>
 
 ## 🐟 `useFish`
 
-Write your distributed logic with the well known fish and get the public state as easy as possible
+Write your distributed logic with the well-known fish and get the public state as easy as possible.
 
 ### Example
 
@@ -62,6 +62,7 @@ const MaterialRequest = ({id}: Props) => {
 ## 🎏 `useRegistryFish`
 
 Run with the concept of registry fish and write scalable and maintainable data architecture. The `useRegistryFish` function will return you an array of all relevant fish to create tables, autocomplete inputs, and select fields as easy as possible.
+
 
 If you registry fish is not as strateforward, use the mapper function in `useRegistryFishMap`
 
@@ -126,7 +127,7 @@ const Example = () => {
 
 ## 🌊 `usePond`
 
-the pond in not hidden from you. use it as usual with `const pond = usePond()`
+the pond is not hidden from you. Use it as usual with `const pond = usePond()`.
 
 ### Example
 
