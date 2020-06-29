@@ -26,11 +26,11 @@ export const pondContext = React.createContext<PondContext>(undefined)
  * Pond component properties to get some feedback
  */
 type PondProps = {
-  /** children components are shown when the init is done */
+  /** React application. Components are shown when the initialize is done */
   children: React.ReactNode
-  /** component to show during the connect (very quick) */
+  /** Component to show during the connect (very shortly) */
   loadComponent?: JSX.Element
-  /** error callback the the pond is not able to reach actyxOS locally */
+  /** Error callback the the pond is not able to reach actyxOS locally */
   onError?: (error: unknown) => void
 }
 
@@ -39,7 +39,22 @@ let singletonPond: PondType | undefined = undefined
 
 /**
  * Top level component to initialize the pond
- * @param properties {children, loadComponent, onError} @see PondProps
+ *
+ * ## Example:
+ * ```js
+ * ReactDOM.render(
+ *   <Pond>
+ *     <App />
+ *   </Pond>,
+ *   document.getElementById('root')
+ * )
+ * ```
+ *
+ * @param __namedParameters reactProperties for the pond @see PondProps
+ * @param children React application. Components are shown when the initialize is done
+ * @param loadComponent Component to show during the connect (very shortly)
+ * @param onError Error callback the the pond is not able to reach actyxOS locally
+ * @returns React component
  */
 export const Pond = ({ children, loadComponent, onError }: PondProps) => {
   const [pond, setPond] = React.useState<PondType>()

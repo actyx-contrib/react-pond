@@ -28,7 +28,7 @@ export const start = () => {
     <Pond>
       <Chat />
     </Pond>,
-    document.getElementById('root')!
+    document.getElementById('root')
   )
 }
 

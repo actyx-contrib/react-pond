@@ -25,23 +25,40 @@ import { map, switchMap, share } from 'rxjs/operators'
  * Feed fish function type
  *
  * @param command feed the fish with this command
+ * @typeParam Command Available commands for the fish
  * @returns Promise when the feed is done
  */
 export type FeedFish<Command> = (command: Command) => Promise<void>
 /**
- * set new FishName type. The fishName is used to hydrate the right fish and return the state
+ * Set new fish name type. The fish name is used to hydrate the fish and return the state
  *
  * @param newName set a new name to the observing fish
  */
 export type SetNewFishName = (newName: string) => void
-/** generic fish type for the registry fish */
-export type FishTypeRegistry = FishTypeImpl<any, any, any, ReadonlyArray<FishName>>
-/** generic fish type for the registry fish with generic public state*/
+/** Generic fish type for the registry fish */
+export type FishTypeRegistry = FishTypeImpl<any, any, any, ReadonlyArray<FishName | string>>
+/**
+ * Generic fish type for the registry fish with generic public state
+ * @typeParam PublicState Observable state of the registry fish
+ */
 export type FishTypeRegistryMap<PublicState> = FishTypeImpl<any, any, any, PublicState>
-/** simplified type for the entity fish */
+/**
+ * Simplified type for the entity fish
+ * @typeParam Command Available commands for the fish
+ * @typeParam PublicState Observable state of the fish
+ */
 export type FishTypeEntity<Command, PublicState> = FishTypeImpl<any, Command, any, PublicState>
 
-/** ReactFish type */
+/**
+ * ReactFish type.
+ *
+ * This fish will handle all interactions with the React component.
+ *
+ * state, feed, name, stream$
+ *
+ * @typeParam Command Available commands for the fish
+ * @typeParam PublicState Observable state of the fish
+ */
 export type ReactFish<Command, PublicState> = {
   /** current public state of the observed fish */
   state: PublicState
@@ -56,34 +73,29 @@ export type ReactFish<Command, PublicState> = {
 /**
  * Stateful integration of an actyx Pond Fish.
  *
+ * ## Example:
  * ```js
  * export const App = () => {
- *   const [message, setMessage] = useState('')
- *   const [userName, setUserName] = useState('user')
- *   const [chatFish, setChatFishName] = useFish(ChatFish, 'lobby')
+ *   const [chatRoomFish] = useFish(ChatRoomFish, 'lobby')
  *
  *   return (
  *     <div>
- *       <div>
- *         current chat room:{' '}
- *         <input onChange={({ target }) => setChatFishName(target.value)} value={chatFish.name} />
- *       </div>
- *       <div>
- *         username:{' '}
- *         <input onChange={({ target }) => target.value !== userName && setUserName(target.value)} value={userName} />
- *       </div>
- *
- *       {chatFish && (
- *         <div>
- *           {chatFish.state.map((message, idx) => <div key={idx}>{message}</div>)}
- *         </div>
- *         <div>
- *           Your message:{' '}
- *           <input onChange={({ target }) => target.value !== message && setMessage(target.value)} value={message} />
- *           <button onClick={() => chatFish.feed({type: CommandType.postMessage, sender: userName, message})}>
- *             send
- *           </button>
- *         </div>
+ *       {chatRoomFish && (
+ *         <>
+ *           <div>current chat room: {chatRoomFish.name}</div>
+ *           <div>
+ *             {chatRoomFish.state.map((message, idx) => <div key={idx}>{message}</div>)}
+ *           </div>
+ *           <div>
+ *             <button
+ *               onClick={
+ *                 () => chatRoomFish.feed({type: CommandType.postMessage, sender: 'me', 'hi'})
+ *               }
+ *             >
+ *               send
+ *             </button>
+ *           </div>
+ *         </>
  *       )}
  *     </div>
  *   )
@@ -92,6 +104,8 @@ export type ReactFish<Command, PublicState> = {
  *
  * @param fish fish to get the public state for
  * @param fishName (optional) if a name is set, this fish will be observed or hydrated. If no name is set, use the returned SetNewFishName to set the name
+ * @typeParam Command Available commands for the fish
+ * @typeParam PublicState Observable state of the fish
  * @returns [ReactFish?, SetNewFishName] If no name is set, the ReactFish is undefined
  */
 export const useFish = <Command, PublicState>(
@@ -130,6 +144,13 @@ export const useFish = <Command, PublicState>(
   ]
 }
 
+/**
+ * Return of the useRegistryFish function
+ *
+ * @internal
+ * @typeParam Command Available commands for the fish
+ * @typeParam PublicState Observable state of the fish
+ */
 type UseRegistryFishReturn<Command, PublicState> = [
   ReadonlyArray<ReactFish<Command, PublicState>>,
   Observable<ReadonlyArray<PublicState>>
@@ -139,10 +160,41 @@ type UseRegistryFishReturn<Command, PublicState> = [
  * Observe the registry fish to get the names of the entity fish. Observe all entity fish
  * and return a array of ReactFish representing the entities
  *
- * @see useRegistryFish if your registry fish has an fishname[] as public state
+ * @see useRegistryFishMap If your registry fish has **not** an array of fish names as public state
  *
- * @param registryFish registry fish to map the state to the entity fish. (Public state needs to be a fishname[])
+ * ## Example:
+ * ```js
+ * export const App = () => {
+ *   const [chatRooms] = useRegistryFish(ChatRoomRegistryFish, ChatRoomFish)
+ *
+ *   return (
+ *     <div>
+ *       {chatRooms.map(chatRoomFish => (
+ *         <>
+ *           <div>Chat room: {chatRoomFish.name}</div>
+ *           <div>
+ *             Last fife messages:
+ *             {chatRoomFish.state.slice(-5).map((message, idx) => <div key={idx}>{message}</div>)}
+ *           </div>
+ *           <div>
+ *             <button
+ *               onClick={
+ *                 () => chatRoomFish.feed({type: CommandType.postMessage, sender: 'me', 'hi'})
+ *               }
+ *             >
+ *               send "hi"
+ *             </button>
+ *           </div>
+ *         </>
+ *       )}
+ *     </div>
+ *   )
+ * }
+ * ```
+ * @param registryFish registry fish to map the state to the entity fish. (Public state needs to be a FishName[] or a string[])
  * @param entityFish fish, represent a single entity in the registry fish
+ * @typeParam Command Available commands for the fish
+ * @typeParam PublicState Observable state of the fish
  * @returns [ReactFish[], Observable<PublicState[]>] returns a ReactFish array and a Observable with all states as array @see useStream
  */
 export const useRegistryFish = <Command, PublicState>(
@@ -150,9 +202,10 @@ export const useRegistryFish = <Command, PublicState>(
   entityFish: FishTypeEntity<Command, PublicState>
 ): UseRegistryFishReturn<Command, PublicState> => {
   const { observe, feed } = usePond()
-  const [state, setState] = React.useState<
-    [ReadonlyArray<ReactFish<Command, PublicState>>, Observable<ReadonlyArray<PublicState>>]
-  >([[], Observable.never<ReadonlyArray<PublicState>>().startWith([])])
+  const [state, setState] = React.useState<UseRegistryFishReturn<Command, PublicState>>([
+    [],
+    Observable.never<ReadonlyArray<PublicState>>().startWith([])
+  ])
 
   React.useEffect(() => {
     const allStates$ = observe(registryFish, 'reg').pipe(
@@ -182,14 +235,19 @@ export const useRegistryFish = <Command, PublicState>(
 }
 
 /**
- * Observe the registry fish and map the state to a fishname[]. Observe all entity fish according to
- * the fishname[] and return a array of ReactFish representing the entities
+ * Observe the registry fish and map the state to an array of fish names, and finally observe all entity fish according to
+ * the fish names and return a array of ReactFish representing the entities.
  *
- * @see useRegistryFish if your registry fish has an fishname[] as public state
+ * Additionally you will get at Observable of the stream
+ *
+ * @see useRegistryFish If your registry fish has an array of FishNames or strings as public state
  *
  * @param registryFish registry fish to map the state to the entity fish.
  * @param mapFn mapper from RegistryPublicState to a array of the entity fish names
  * @param entityFish fish, represent a single entity in the registry fish
+ * @typeParam RegistryPublicState observable state of the registry fish. Used in the mapper function
+ * @typeParam Command Available commands for the fish
+ * @typeParam PublicState Observable state of the fish
  * @returns [ReactFish[], Observable<PublicState[]>] returns a ReactFish array and a Observable with all states as array @see useStream
  */
 export const useRegistryFishMap = <RegistryPublicState, Command, PublicState>(
@@ -198,9 +256,10 @@ export const useRegistryFishMap = <RegistryPublicState, Command, PublicState>(
   entityFish: FishTypeEntity<Command, PublicState>
 ): UseRegistryFishReturn<Command, PublicState> => {
   const { observe, feed } = usePond()
-  const [state, setState] = React.useState<
-    [ReadonlyArray<ReactFish<Command, PublicState>>, Observable<ReadonlyArray<PublicState>>]
-  >([[], Observable.never<ReadonlyArray<PublicState>>().startWith([])])
+  const [state, setState] = React.useState<UseRegistryFishReturn<Command, PublicState>>([
+    [],
+    Observable.never<ReadonlyArray<PublicState>>().startWith([])
+  ])
 
   React.useEffect(() => {
     const allStates$ = observe(registryFish, 'reg').pipe(
