@@ -17,11 +17,8 @@
 import * as React from 'react'
 import { useState } from 'react'
 import * as ReactDOM from 'react-dom'
-import { Pond, useFish } from '@actyx-contrib/react-pond'
-import { createRegistryFish } from '@actyx-contrib/registry'
-import { ChatRoomFish, EventType, CommandType } from './fish/chatRoomFish'
-
-const ChatRoomRegistryFish = createRegistryFish(ChatRoomFish, EventType.message)
+import { Pond, useFish } from '../src'
+import { ChatRoomFish, EventType } from './fish/chatRoomFish'
 
 export const start = () => {
   ReactDOM.render(
@@ -35,18 +32,17 @@ export const start = () => {
 export const Chat = () => {
   const [message, setMessage] = useState('')
   const [userName, setUserName] = useState('user')
-  const [chatRoomFish, setChatRoomFishName] = useFish(ChatRoomFish, 'lobby')
-  const [chatRoomRegistryFish] = useFish(ChatRoomRegistryFish, 'reg')
+  const [chatRoomName, setChatRoomName] = useState('lobby')
+  const chatRoomFish = useFish(ChatRoomFish.forChannel(chatRoomName))
 
   return (
     <div>
       <div>
         current chat room:{' '}
         <input
-          onChange={({ target }) => setChatRoomFishName(target.value)}
-          value={chatRoomFish ? chatRoomFish.name : ''}
+          onChange={({ target }) => target.value !== chatRoomName && setChatRoomName(target.value)}
+          value={chatRoomName}
         />
-        <div>{chatRoomRegistryFish && chatRoomRegistryFish.state.join(', ')}</div>
       </div>
       <div>
         username:{' '}
@@ -56,7 +52,7 @@ export const Chat = () => {
         />
       </div>
       <hr />
-      {chatRoomFish && (
+      {
         <>
           <div>
             {chatRoomFish.state.map((msg, idx) => (
@@ -71,14 +67,19 @@ export const Chat = () => {
             />
             <button
               onClick={() =>
-                chatRoomFish.feed({ type: CommandType.postMessage, sender: userName, message })
+                chatRoomFish.run(() => [
+                  {
+                    tags: ChatRoomFish.tags.channel.withId(chatRoomName),
+                    payload: { type: EventType.message, message, sender: userName }
+                  }
+                ])
               }
             >
               send
             </button>
           </div>
         </>
-      )}
+      }
     </div>
   )
 }

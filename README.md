@@ -2,7 +2,7 @@
 
 # React-Pond
 
-Use the [Actyx-Pond framework](https://developer.actyx.com/docs/pond/getting-started/) fully integrated into React. Expand your toolchain with `<Pond>`, `useFish`, `useRegistryFish`, `useRegistryFishMap`, `usePond`, and `useStream` to speed up your UI projects and write distributed apps in a couple of hours.  
+Use the [Actyx-Pond framework](https://developer.actyx.com/docs/pond/getting-started/) fully integrated into React. Expand your toolchain with `<Pond>`, `useFish`, and `usePond` to speed up your UI projects and write distributed apps in a couple of hours.  
 
 ## 📦 Installation
 
@@ -43,85 +43,19 @@ Write your distributed logic with the well-known fish and get the public state a
 ### Example
 
 ```js
-const MaterialRequest = ({id}: Props) => {
-  const [mrState] = useFish(MaterialRequestFish, id)
+const MaterialRequest = ({ id }: Props) => {
+  const mrState = useFish(MaterialRequestFish(id), id)
 
   return (
     <div>
       <div>
-        Material Request ({mrState.name}): mrState.state.status
+        Material Request ({ id }): mrState.state.status
       </div>
-      <button onClick={() => mrState.feed({type: CommandType.Done})}>
+      <button onClick={() => mrState.run(() => [{tags: [`material:${id}`], payload: EventType.Done })}>
         Done
       </button>
     </div>
   )
-}
-```
-
-## 🎏 `useRegistryFish`
-
-Run with the concept of registry fish and write scalable and maintainable data architecture. The `useRegistryFish` function will return you an array of all relevant fish to create tables, autocomplete inputs, and select fields as easy as possible.
-
-
-If you registry fish is not as strateforward, use the mapper function in `useRegistryFishMap`
-
----
-**NOTE**
-Learn more about registry fish here: [https://developer.actyx.com/blog/2020/06/15/registry-fishes](https://developer.actyx.com/blog/2020/06/15/registry-fishes) 
-
-Checkout the @actyx-contrib/registry project on [GitHub](https://github.com/actyx-contrib/registry) or install it with `npm install @actyx-contrib/registry`
-
----
-
-### Example
-
-```js
-const MaterialRequest = ({id}: Props) => {
-  const [materialRequests] = useRegistryFish(MaterialRequestRegistryFish, MaterialRequestFish)
-
-  return (
-    <div>
-      <div>
-        Maintain all material requests
-      </div>
-      <div>
-        {materialRequests.map(mrFish => {
-          return (
-            <div>
-              <div>
-                Material Request ({mrFish.name}): mrFish.state.status
-              </div>
-              <button onClick={() => mrFish.feed({type: CommandType.Done})}>
-                Done
-              </button>
-            </div>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-```
-
-## `useStream`
-
-If you already have some complex `Observables` in your code. Use the `useStream` function to turn it into a state and render your UI.
-
-### Example
-
-```js
-const Example = () => {
-  const [ticks] = useStream(interval(1000))
-
-  const [mrState] = useFish(MaterialRequestFish, id)
-  const cool$ = mrState.stream$.pipe(/*...*/)
-  const [advancedState] = useStream(cool$)
-
-  return <div>
-    <div>timer: {ticks}</div>
-    <div>state: {advancedState}</div>
-  </div>
 }
 ```
 

@@ -19,27 +19,12 @@
  * VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=Actyx.actyx-pond
  */
 
-/* eslint-disable @typescript-eslint/no-use-before-define */
-import {
-  Envelope,
-  FishType,
-  InitialState,
-  OnCommand,
-  OnEvent,
-  OnStateChange,
-  Semantics,
-  Subscription
-} from '@actyx/pond'
+import { Fish, FishId, Reduce, Tag } from '@actyx/pond'
 
 /*
  * Fish State
  */
 export type State = ReadonlyArray<string>
-export type PublicState = State
-const initialState: InitialState<State> = (name, _sourceId) => ({
-  state: [],
-  subscriptions: [Subscription.of(ChatRoomFish, name)]
-})
 
 /**
  * Fish Events
@@ -54,52 +39,24 @@ export type MessageEvent = {
 }
 export type Event = MessageEvent
 
-export const onEvent: OnEvent<State, Event> = (state: State, event: Envelope<Event>) => {
-  const { payload } = event
-  switch (payload.type) {
+export const onEvent: Reduce<State, Event> = (state: State, event: Event) => {
+  switch (event.type) {
     case EventType.message: {
-      const newMessage = `${payload.sender}: ${payload.message}`
+      const newMessage = `${event.sender}: ${event.message}`
       return [newMessage, ...state]
     }
   }
   return state
 }
 
-/**
- * Fish Commands
- */
-export enum CommandType {
-  postMessage = 'postMessage'
+const tags = {
+  channel: Tag<Event>('channel')
 }
-export type PostMessageCommand = {
-  type: CommandType.postMessage
-  sender: string
-  message: string
-}
-export type Command = PostMessageCommand
-
-export const onCommand: OnCommand<State, Command, Event> = (_state: State, command: Command) => {
-  switch (command.type) {
-    case CommandType.postMessage: {
-      return [
-        {
-          type: EventType.message,
-          message: command.message,
-          sender: command.sender
-        }
-      ]
-    }
-  }
-  return []
-}
-
-/*
- * Fish Definition
- */
-export const ChatRoomFish = FishType.of<State, Command, Event, PublicState>({
-  semantics: Semantics.of('com.example.chatRoom'),
-  initialState,
+const forChannel = (channel: string): Fish<State, Event> => ({
+  fishId: FishId.of('com.example.chatRoom', channel, 0),
+  initialState: [],
   onEvent,
-  onCommand,
-  onStateChange: OnStateChange.publishPrivateState()
+  where: tags.channel.withId(channel)
 })
+
+export const ChatRoomFish = { forChannel, tags }

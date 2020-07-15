@@ -14,14 +14,4 @@
  * limitations under the License.
  */
 export { Pond, usePond } from './Pond'
-export {
-  useFish,
-  useRegistryFish,
-  useRegistryFishMap,
-  ReactFish,
-  FeedFish,
-  FishTypeEntity,
-  FishTypeRegistry,
-  SetNewFishName
-} from './useFish'
-export { useStream } from './useStream'
+export { useFish, ReactFish } from './useFish'
