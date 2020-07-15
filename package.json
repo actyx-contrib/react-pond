@@ -1,6 +1,6 @@
 {
   "name": "@actyx-contrib/react-pond",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Use the Actyx-Pond framework fully integrated in React",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -20,8 +20,8 @@
   },
   "author": "Actyx AG",
   "license": "Apache-2.0",
-  "dependencies": {
-    "@actyx/pond": "^1.1",
+  "peerDependencies": {
+    "@actyx/pond": "1.1",
     "fp-ts": "1.19.4",
     "io-ts": "1.10.1",
     "io-ts-types": "0.4.1",
@@ -43,13 +43,11 @@
     "rimraf": "^3.0.2",
     "ts-loader": "^7.0.5",
     "typedoc": "^0.17.7",
-    "typescript": "^3.9.5"
-  },
-  "peerDependencies": {
-    "@actyx/pond": "^1.0.3",
-    "fp-ts": "1.19.4",
-    "io-ts": "1.10.1",
-    "io-ts-types": "0.4.1",
+    "typescript": "^3.9.5",
+    "@actyx/pond": "^1.1",
+    "fp-ts": "1.19",
+    "io-ts": "1.10",
+    "io-ts-types": "0.4",
     "rxjs": "5.5.12"
   }
 }
