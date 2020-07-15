@@ -1,6 +1,6 @@
 {
   "name": "@actyx-contrib/react-pond",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Use the Actyx-Pond framework fully integrated in React",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -21,33 +21,33 @@
   "author": "Actyx AG",
   "license": "Apache-2.0",
   "peerDependencies": {
-    "@actyx/pond": "1.1",
-    "fp-ts": "1.19.4",
-    "io-ts": "1.10.1",
-    "io-ts-types": "0.4.1",
-    "rxjs": "5.5.12"
+    "@actyx/pond": "~1.1",
+    "fp-ts": "~1.19.4",
+    "io-ts": "~1.10.1",
+    "io-ts-types": "~0.4.1",
+    "rxjs": "~5.5.12"
   },
   "devDependencies": {
-    "@actyx-contrib/registry": "^1.0.1",
+    "@actyx-contrib/registry": "~1.0.1",
+    "@actyx/pond": "~1.1",
     "@types/react": "^16.9.35",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
-    "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
+    "eslint": "^6.8.0",
+    "fp-ts": "~1.19",
+    "io-ts-types": "~0.4",
+    "io-ts": "~1.10",
     "license-check-and-add": "^3.0.4",
     "prettier": "^1.19.1",
-    "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react": "^16.13.1",
     "rimraf": "^3.0.2",
+    "rxjs": "~5.5.12",
     "ts-loader": "^7.0.5",
     "typedoc": "^0.17.7",
-    "typescript": "^3.9.5",
-    "@actyx/pond": "^1.1",
-    "fp-ts": "1.19",
-    "io-ts": "1.10",
-    "io-ts-types": "0.4",
-    "rxjs": "5.5.12"
+    "typescript": "^3.9.5"
   }
 }
