@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-/*
- * Generated fish pattern with visual studio code extension Actyx-Pond
- * VS Marketplace Link: https://marketplace.visualstudio.com/items?itemName=Actyx.actyx-pond
- */
-
 import { Fish, FishId, Reduce, Tag } from '@actyx/pond'
 
 /*
  * Fish State
  */
-export type State = ReadonlyArray<string>
+export type State = string[]
 
 /**
  * Fish Events
@@ -43,7 +38,7 @@ export const onEvent: Reduce<State, Event> = (state: State, event: Event) => {
   switch (event.type) {
     case EventType.message: {
       const newMessage = `${event.sender}: ${event.message}`
-      return [newMessage, ...state]
+      state.unshift(newMessage)
     }
   }
   return state

@@ -2,7 +2,7 @@
 
 # React-Pond
 
-Use the [Actyx-Pond framework](https://developer.actyx.com/docs/pond/getting-started/) fully integrated into React. Expand your toolchain with `<Pond>`, `useFish`, and `usePond` to speed up your UI projects and write distributed apps in a couple of hours.  
+Use the [Actyx Pond framework](https://developer.actyx.com/docs/pond/getting-started/) fully integrated into React. Expand your toolchain with `<Pond>`, `useFish`, and `usePond` to speed up your UI projects and write distributed apps in a couple of hours.  
 
 ## 📦 Installation
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Fish, StateEffect } from '@actyx/pond'
+import { Fish, StateEffect, Pond } from '@actyx/pond'
 import * as React from 'react'
 import { usePond } from './Pond'
 
@@ -21,16 +21,19 @@ import { usePond } from './Pond'
  * ReactFish type.
  *
  * This fish will handle all interactions with the React component.
- *
- * state, run
- * TODO DOCS
  */
 export type ReactFish<State, Event> = {
   /** current public state of the observed fish */
   state: State
-  /** feed function for the observed fish */
+  /** run function for the observed fish */
   run: (eff: StateEffect<State, Event>) => Promise<void>
 }
+
+/** @internal */
+const mkReactFish = <S, E>(pond: Pond, fish: Fish<S, E>, state: S): ReactFish<S, E> => ({
+  state,
+  run: x => pond.run(fish, x).toPromise()
+})
 
 /**
  * Stateful integration of an actyx Pond Fish.
@@ -76,18 +79,14 @@ export type ReactFish<State, Event> = {
  */
 export const useFish = <State, E>(fish: Fish<State, E>): ReactFish<State, E> => {
   const pond = usePond()
-  const mkReactFish = (state: State): ReactFish<State, E> => ({
-    state,
-    run: x => pond.run(fish, x).toPromise()
-  })
   const [reactFish, setReactFish] = React.useState<ReactFish<State, E>>(
-    mkReactFish(fish.initialState)
+    mkReactFish(pond, fish, fish.initialState)
   )
 
   React.useEffect(
     () =>
       pond.observe(fish, newState => {
-        const reactFish = mkReactFish(newState)
+        const reactFish = mkReactFish(pond, fish, newState)
         setReactFish(reactFish)
       }),
     []
