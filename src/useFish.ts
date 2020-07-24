@@ -33,6 +33,10 @@ export type ReactFish<State, Event, T> = {
 export type SetProps<P> = (props: P) => void
 
 /** @internal */
+const runStateEffect = <S, E>(pond: Pond, fish: Fish<S, E>) => (eff: StateEffect<S, E>) =>
+  pond.run(fish, eff).toPromise()
+
+/** @internal */
 const mkReactFish = <S, E, P>(
   pond: Pond,
   fish: Fish<S, E>,
@@ -40,7 +44,7 @@ const mkReactFish = <S, E, P>(
   props?: P
 ): ReactFish<S, E, P> => ({
   state,
-  run: x => pond.run(fish, x).toPromise(),
+  run: runStateEffect(pond, fish),
   props
 })
 
