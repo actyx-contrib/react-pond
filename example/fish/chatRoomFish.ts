@@ -34,7 +34,7 @@ export type MessageEvent = {
 }
 export type Event = MessageEvent
 
-export const onEvent: Reduce<State, Event> = (state: State, event: Event) => {
+export const onEvent: Reduce<State, Event> = (state, event) => {
   switch (event.type) {
     case EventType.message: {
       const newMessage = `${event.sender}: ${event.message}`
