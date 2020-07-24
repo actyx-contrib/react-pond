@@ -26,7 +26,7 @@
     "@actyx/pond": "https://axartifacts.blob.core.windows.net/artifacts/1c15152b878af48e718cc6344246eb228e1f0211/actyx-pond-2.0.0-rc3.tgz"
   },
   "devDependencies": {
-    "@actyx/pond": "^2.0.0",
+    "@actyx/pond": "^2.0.1",
     "@types/react": "^16.9.43",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
