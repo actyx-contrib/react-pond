@@ -16,7 +16,7 @@ npm install @actyx-contrib/react-pond
 
 You can access the full API documentation and related examples by visiting: [https://actyx-contrib.github.io/react-pond](https://actyx-contrib.github.io/react-pond/)
 
-You will find detailed examples [here](https://github.com/actyx-contrib/react-pond/tree/master/example)
+You will find detailed examples [here](https://github.com/actyx-contrib/react-pond/tree/master/example). They can be executed running e.g. `npm run example:chatRoom'.
 
 # 🤓 Quick start
 
@@ -44,7 +44,7 @@ Write your distributed logic with the well-known fish and get the public state a
 
 ```js
 const MaterialRequest = ({ id }: Props) => {
-  const mrState = useFish(MaterialRequestFish(id), id)
+  const [mrState, setId] = useFish(MaterialRequestFish, id)
 
   return (
     <div>
@@ -68,7 +68,10 @@ the pond is not hidden from you. Use it as usual with `const pond = usePond()`.
 ```js
 const Example = () => {
   const pond = usePond()
-  const [nodeConnectivity] = useStream(pond.getNodeConnectivity())
+  const [nodeConnectivity, setNodeConnectivity] = React.useState<ConnectivityStatus>()
+  React.useEffect(() => {
+    getNodeConnectivity({ callback: setNodeConnectivity })
+  })
 
   return <div>
     <div>{JSON.stringify(nodeConnectivity)}</div>

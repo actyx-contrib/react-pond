@@ -1,12 +1,12 @@
 {
   "name": "@actyx-contrib/react-pond",
-  "version": "1.0.5",
-  "description": "Use the Actyx Pond framework fully integrated in React",
+  "version": "2.0.0",
+  "description": "Use the Actyx Pond framework fully integrated with React",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
     "prepack": "npm run build:doc && npm run build",
-    "clean": "rimraf ./lib ./coverage",
+    "clean": "rimraf ./lib ./coverage ./dist ./.cache",
     "tsc": "tsc",
     "tsc:watch": "tsc --watch --pretty",
     "build": "tsc -p ./tsconfig.json",
@@ -16,16 +16,18 @@
     "lint:fix": "tsc & eslint './src/**/*.{js,ts,tsx}' --fix & prettier './src/**/*.{js,ts,tsx}' --write",
     "license:add": "license-check-and-add add -f add-license-config.json",
     "license:check": "license-check-and-add check -f add-license-config.json",
-    "license:check-dep": "license-checker --production --onlyAllow 'MIT; MIT OR X11; BSD; ISC; Apache-2.0;'"
+    "license:check-dep": "license-checker --production --onlyAllow 'MIT; MIT OR X11; BSD; ISC; Apache-2.0;'",
+    "example:usePond": "parcel example/usePond.html",
+    "example:chatRoom": "parcel example/chatRoom.html"
   },
   "author": "Actyx AG",
   "license": "Apache-2.0",
   "peerDependencies": {
-    "@actyx/pond": "^2.0.0-rc1"
+    "@actyx/pond": "https://axartifacts.blob.core.windows.net/artifacts/1c15152b878af48e718cc6344246eb228e1f0211/actyx-pond-2.0.0-rc3.tgz"
   },
   "devDependencies": {
-    "@actyx/pond": "^2.0.0-rc1",
-    "@types/react": "^16.9.35",
+    "@actyx/pond": "https://axartifacts.blob.core.windows.net/artifacts/1c15152b878af48e718cc6344246eb228e1f0211/actyx-pond-2.0.0-rc3.tgz",
+    "@types/react": "^16.9.43",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
     "eslint": "^6.8.0",
@@ -33,6 +35,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
     "license-check-and-add": "^3.0.4",
+    "parcel": "^1.12.4",
     "prettier": "^1.19.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

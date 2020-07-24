@@ -38,7 +38,7 @@ export const onEvent: Reduce<State, Event> = (state: State, event: Event) => {
   switch (event.type) {
     case EventType.message: {
       const newMessage = `${event.sender}: ${event.message}`
-      state.unshift(newMessage)
+      state.push(newMessage)
     }
   }
   return state
@@ -47,11 +47,11 @@ export const onEvent: Reduce<State, Event> = (state: State, event: Event) => {
 const tags = {
   channel: Tag<Event>('channel')
 }
-const forChannel = (channel: string): Fish<State, Event> => ({
+const fishForChannel = (channel: string): Fish<State, Event> => ({
   fishId: FishId.of('com.example.chatRoom', channel, 0),
   initialState: [],
   onEvent,
   where: tags.channel.withId(channel)
 })
 
-export const ChatRoomFish = { forChannel, tags }
+export const ChatRoom = { fishForChannel, tags }

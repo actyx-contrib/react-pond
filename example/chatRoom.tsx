@@ -18,7 +18,7 @@ import * as React from 'react'
 import { useState } from 'react'
 import * as ReactDOM from 'react-dom'
 import { Pond, useFish } from '../src'
-import { ChatRoomFish, EventType } from './fish/chatRoomFish'
+import { ChatRoom, EventType } from './fish/chatRoomFish'
 
 export const start = () => {
   ReactDOM.render(
@@ -32,27 +32,28 @@ export const start = () => {
 export const Chat = () => {
   const [message, setMessage] = useState('')
   const [userName, setUserName] = useState('user')
-  const [chatRoomName, setChatRoomName] = useState('lobby')
-  const chatRoomFish = useFish(ChatRoomFish.forChannel(chatRoomName))
+  const [chatRoomFish, setChatRoomName] = useFish(ChatRoom.fishForChannel, 'lobby')
+
+  const chatRoomName = chatRoomFish?.props
 
   return (
     <div>
       <div>
-        current chat room:{' '}
+        current chat room:&nbsp;
         <input
           onChange={({ target }) => target.value !== chatRoomName && setChatRoomName(target.value)}
-          value={chatRoomName}
+          value={chatRoomName ? chatRoomName : ''}
         />
       </div>
       <div>
-        username:{' '}
+        username:&nbsp;
         <input
           onChange={({ target }) => target.value !== userName && setUserName(target.value)}
           value={userName}
         />
       </div>
       <hr />
-      {
+      {chatRoomFish && (
         <>
           <div>
             {chatRoomFish.state.map((msg, idx) => (
@@ -60,7 +61,7 @@ export const Chat = () => {
             ))}
           </div>
           <div>
-            Your message:{' '}
+            Your message:&nbsp;
             <input
               onChange={({ target }) => target.value !== message && setMessage(target.value)}
               value={message}
@@ -69,7 +70,7 @@ export const Chat = () => {
               onClick={() =>
                 chatRoomFish.run(() => [
                   {
-                    tags: ChatRoomFish.tags.channel.withId(chatRoomName),
+                    tags: ChatRoom.tags.channel.withId(chatRoomName),
                     payload: { type: EventType.message, message, sender: userName }
                   }
                 ])
@@ -79,7 +80,9 @@ export const Chat = () => {
             </button>
           </div>
         </>
-      }
+      )}
     </div>
   )
 }
+
+start()
