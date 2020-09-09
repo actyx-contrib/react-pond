@@ -4,6 +4,7 @@
   "description": "Use the Actyx Pond framework fully integrated with React",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
+  "repository": "https://github.com/actyx-contrib/react-pond",
   "scripts": {
     "prepack": "npm run build:doc && npm run build",
     "clean": "rimraf ./lib ./coverage ./dist ./.cache",
@@ -23,10 +24,10 @@
   "author": "Actyx AG",
   "license": "Apache-2.0",
   "peerDependencies": {
-    "@actyx/pond": "https://axartifacts.blob.core.windows.net/artifacts/1c15152b878af48e718cc6344246eb228e1f0211/actyx-pond-2.0.0-rc3.tgz"
+    "@actyx/pond": "2"
   },
   "devDependencies": {
-    "@actyx/pond": "^2.0.1",
+    "@actyx/pond": "^2.2.0",
     "@types/react": "^16.9.43",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
