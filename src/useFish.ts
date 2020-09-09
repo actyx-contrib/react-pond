@@ -51,10 +51,23 @@ export const mkReactFish = <State, Events, Props>(
 /**
  * Stateful integration of an actyx Pond Fish factory.
  *
+ * Learn more about the fish: https://developer.actyx.com/docs/pond/getting-started
+ *
  * ## Example:
  * ```js
  * export const App = () => {
- *   const [chatRoomFish, setProps] = useFish(ChatRoomFish.forChannel, 'lobby')
+ *   const [channel, setChannel] = React.useState('lobby')
+ *   const chatRoomFish = useFishFn(ChatRoomFish.forChannel, channel)
+ *
+ *   const send = () =>
+ *     chatRoomFish && chatRoomFish.run((_state, enqueue) =>
+ *       enqueue(ChatRoom.tags.channel.withId(channel), {
+ *         type: 'message',
+ *         message,
+ *         sender: userName,
+ *         channel
+ *       })
+ *     )
  *
  *   return (
  *     <div>
@@ -67,18 +80,7 @@ export const mkReactFish = <State, Events, Props>(
  *             ))}
  *           </div>
  *           <div>
- *             <button
- *               onClick={() =>
- *                 chatRoomFish.run(() => [
- *                   {
- *                     tags: ['channel:lobby'],
- *                     payload: { type: EventType.message, sender: 'me', message: 'hi' }
- *                   }
- *                 ])
- *               }
- *             >
- *               send
- *             </button>
+ *             <button onClick={send}>send</button>
  *           </div>
  *         </>
  *       )}
@@ -87,16 +89,16 @@ export const mkReactFish = <State, Events, Props>(
  * }
  * ```
  *
- * @param fish fish to get the public state for, or fish factory function
- * @param props if a factory function is passed to `fish`, provide the props here
- * @returns ReactFish
+ * @param fish fish factory function to get the public state for
+ * @param props props for the factory
+ * @returns ReactFish | undefined If the props are undefined
  */
 export const useFishFn = <State, Events, Props>(
   mkFish: (props: Props) => Fish<State, Events>,
-  props?: Props
-): ReactFish<State, Events, Props> | undefined => {
+  props: Props | undefined
+): ReactFish<State, Events, Props> | void => {
   const pond = usePond()
-  const [reactFish, setReactFish] = React.useState<ReactFish<State, Events, Props>>()
+  const [reactFish, setReactFish] = React.useState<ReactFish<State, Events, Props> | undefined>()
 
   React.useEffect(() => {
     if (props) {
@@ -106,16 +108,42 @@ export const useFishFn = <State, Events, Props>(
         setReactFish(reactFish)
       })
       return sub
+    } else {
+      setReactFish(undefined)
     }
     return
   }, [props])
-  return props && reactFish
+
+  return reactFish
 }
 
-/** @internal */
-const useFishInternal = <State, Events>(
+/**
+ * Stateful integration of an actyx Pond Fish.
+ *
+ * Learn more about the fish: https://developer.actyx.com/docs/pond/getting-started
+ *
+ * ## Example:
+ * ```js
+ * export const App = () => {
+ *   const chatRoomsFish = useFish(ChatRoomFish.channelList)
+ *
+ *   return (
+ *     <div>
+ *       <div>List of existing chat rooms</div>
+ *       <ul>
+ *         {chatRoomsFish.map((name) => <li key={name}>{name}</li>)}
+ *       </ul>
+ *     </div>
+ *   )
+ * }
+ * ```
+ *
+ * @param fish fish to get the public state for
+ * @returns ReactFish
+ */
+export const useFish = <State, Events>(
   fish: Fish<State, Events>
-): ReactFish<State, Events> | undefined => {
+): ReactFish<State, Events, void> => {
   const pond = usePond()
   const [reactFish, setReactFish] = React.useState<ReactFish<State, Events, void>>(
     mkReactFish(pond, fish, fish.initialState, undefined)
@@ -131,50 +159,3 @@ const useFishInternal = <State, Events>(
 
   return reactFish
 }
-
-/**
- * Stateful integration of an actyx Pond Fish.
- *
- * ## Example:
- * ```js
- * export const App = () => {
- *   const [chatRoomFish, setProps] = useFish(ChatRoomFish.forChannel, 'lobby')
- *
- *   return (
- *     <div>
- *       {chatRoomFish && (
- *         <>
- *           <div>current chat room: {chatRoomFish.props}</div>
- *           <div>
- *             {chatRoomFish.state.map((message, idx) => (
- *               <div key={idx}>{message}</div>
- *             ))}
- *           </div>
- *           <div>
- *             <button
- *               onClick={() =>
- *                 chatRoomFish.run(() => [
- *                   {
- *                     tags: ['channel:lobby'],
- *                     payload: { type: EventType.message, sender: 'me', message: 'hi' }
- *                   }
- *                 ])
- *               }
- *             >
- *               send
- *             </button>
- *           </div>
- *         </>
- *       )}
- *     </div>
- *   )
- * }
- * ```
- *
- * @param fish fish to get the public state for, or fish factory function
- * @param props if a factory function is passed to `fish`, provide the props here
- * @returns ReactFish
- */
-export const useFish = <State, Events>(
-  fish: Fish<State, Events>
-): ReactFish<State, Events, void> | undefined => useFishInternal(fish)

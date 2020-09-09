@@ -21,68 +21,28 @@ import { ReactFish, mkReactFish } from './useFish'
 /**
  * Stateful integration of an actyx Pond Fish factory.
  *
+ * Learn more about the fish: https://developer.actyx.com/docs/pond/getting-started
+ *
  * ## Example:
  * ```js
  * export const App = () => {
- *   const [chatRoomFish, setProps] = useFish(ChatRoomFish.forChannel, 'lobby')
+ *   const allChatRooms = useRegistryFish(ChatRoom.channelList, (s) => s, ChatRoom.forChannel)
  *
  *   return (
  *     <div>
- *       {chatRoomFish && (
- *         <>
- *           <div>current chat room: {chatRoomFish.props}</div>
- *           <div>
- *             {chatRoomFish.state.map((message, idx) => (
- *               <div key={idx}>{message}</div>
- *             ))}
- *           </div>
- *           <div>
- *             <button
- *               onClick={() =>
- *                 chatRoomFish.run(() => [
- *                   {
- *                     tags: ['channel:lobby'],
- *                     payload: { type: EventType.message, sender: 'me', message: 'hi' }
- *                   }
- *                 ])
- *               }
- *             >
- *               send
- *             </button>
- *           </div>
- *         </>
- *       )}
+ *      {allChatRooms.map(f => (
+ *        <div key={f.props}>{f.props}: {f.state.join(', ')}</div>
+ *      ))}
  *     </div>
  *   )
  * }
  * ```
  *
- * @param fish fish to get the public state for, or fish factory function
- * @param props if a factory function is passed to `fish`, provide the props here
- * @returns ReactFish
+ * @param regFish fish to get the public state for, or fish factory function
+ * @param map map the registry state to an array of properties used by the mkFish
+ * @param mkFish fish factory function to get the public state for
+ * @returns ReactFish[] entities of the registry
  */
-export const useFishFn = <State, E, Props>(
-  mkFish: (props: Props) => Fish<State, E>,
-  props?: Props
-): ReactFish<State, E, Props> | undefined => {
-  const pond = usePond()
-  const [reactFish, setReactFish] = React.useState<ReactFish<State, E, Props>>()
-
-  React.useEffect(() => {
-    if (props) {
-      const fish = mkFish(props)
-      const sub = pond.observe(fish, newState => {
-        const reactFish = mkReactFish<State, E, Props>(pond, fish, newState, props)
-        setReactFish(reactFish)
-      })
-      return sub
-    }
-    return
-  }, [props])
-  return props && reactFish
-}
-
-/** @internal */
 export const useRegistryFish = <RegState, State, Events, Props>(
   regFish: Fish<RegState, unknown>,
   map: (regState: RegState) => Props[],

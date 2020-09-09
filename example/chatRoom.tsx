@@ -24,6 +24,7 @@ export const Chat = () => {
   const [message, setMessage] = useState('')
   const [userName, setUserName] = useState('user')
   const [channel, setChannel] = useState('lobby')
+
   const chatRoomFish = useFishFn(ChatRoom.forChannel, channel)
   const chatRoomListFish = useFish(ChatRoom.channelList)
   const allChatRooms = useRegistryFish(ChatRoom.channelList, s => s, ChatRoom.forChannel)
@@ -31,7 +32,7 @@ export const Chat = () => {
   return (
     <div>
       <div>
-        current chat room:&nbsp;
+        current chat room:{' '}
         <input onChange={({ target }) => setChannel(target.value)} value={channel} />
         {chatRoomListFish.state.map(name => (
           <button key={name} onClick={() => setChannel(name)}>
@@ -39,12 +40,13 @@ export const Chat = () => {
           </button>
         ))}
         {allChatRooms.map(f => (
-          <div key={f.props}>{f.props + ': ' + f.state.join(', ')}</div>
+          <div key={f.props}>
+            {f.props} : {f.state.join(', ')}
+          </div>
         ))}
       </div>
       <div>
-        username:&nbsp;
-        <input onChange={({ target }) => setUserName(target.value)} value={userName} />
+        username: <input onChange={({ target }) => setUserName(target.value)} value={userName} />
       </div>
       <hr />
       {chatRoomFish && (
@@ -55,7 +57,7 @@ export const Chat = () => {
             ))}
           </div>
           <div>
-            Your message:&nbsp;
+            Your message:{' '}
             <input onChange={({ target }) => setMessage(target.value)} value={message} />
             <button
               onClick={() =>

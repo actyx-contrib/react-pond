@@ -91,18 +91,18 @@ export const Pond = ({ children, loadComponent, onError }: PondProps) => {
 /**
  * Get the pond in your react application.
  *
- * Get more info about the pond: https://developer.actyx.com/docs/pond/getting-started
+ * Learn more about the pond: https://developer.actyx.com/docs/pond/getting-started
  *
  * ```typescript
- * observe<C, E, P>(fish: FishType<C, E, P>, name: string): Observable<P>;
- * feed<C, E, P>(fish: FishType<C, E, P>, name: string): (command: C) => Observable<void>;
- * commands(): Observable<SendCommand<any>>;
- * dump(): Observable<string>;
- * dispose(): Promise<void>;
+ * emit<E>(tags: Tags<E>, event: E): PendingEmission;
+ * observe<S, E>(fish: Fish<S, E>, callback: (newState: S) => void): CancelSubscription;
+ * run<S, EWrite>(fish: Fish<S, any>, fn: StateEffect<S, EWrite>): PendingEmission;
+ * keepRunning<S, EWrite>(fish: Fish<S, any>, fn: StateEffect<S, EWrite>, autoCancel?: (state: S) => boolean): CancelSubscription;
+ * dispose(): void;
  * info(): PondInfo;
- * getPondState(): Observable<PondState>;
- * getNodeConnectivity(...specialSources: ReadonlyArray<SourceId>): Observable<ConnectivityStatus>;
- * waitForSwarmSync(config?: WaitForSwarmConfig): Observable<SplashState>;
+ * getPondState(callback: (newState: PondState) => void): CancelSubscription;
+ * getNodeConnectivity(params: GetNodeConnectivityParams): CancelSubscription;
+ * waitForSwarmSync(params: WaitForSwarmSyncParams): void;
  * ```
  *
  * @returns pond instance
