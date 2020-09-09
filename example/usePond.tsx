@@ -26,7 +26,7 @@ export const App = () => {
   React.useEffect(() => {
     getNodeConnectivity({ callback: setNodeConnectivity })
     getPondState(setPondState)
-  })
+  }, [])
 
   return (
     <div>

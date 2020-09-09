@@ -1,3 +1,5 @@
 node_modules
 lib
 actyx-contrib-*.tgz
+.cache
+dist

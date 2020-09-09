@@ -2,7 +2,7 @@
 
 # React-Pond
 
-Use the [Actyx Pond framework](https://developer.actyx.com/docs/pond/getting-started/) fully integrated into React. Expand your toolchain with `<Pond>`, `useFish`, and `usePond` to speed up your UI projects and write distributed apps in a couple of hours.  
+Use the [Actyx Pond framework](https://developer.actyx.com/docs/pond/getting-started/) fully integrated into React. Expand your toolchain with `<Pond>`, `useFish`, and `usePond` to speed up your UI projects and write distributed apps in a couple of hours.
 
 ## 📦 Installation
 
@@ -12,7 +12,7 @@ React-Pond is available as a [npm package](https://www.npmjs.com/package/@actyx-
 npm install @actyx-contrib/react-pond
 ```
 
-# 📖  Documentation and detailed examples
+# 📖 Documentation and detailed examples
 
 You can access the full API documentation and related examples by visiting: [https://actyx-contrib.github.io/react-pond](https://actyx-contrib.github.io/react-pond/)
 
@@ -40,18 +40,22 @@ export const wireUI = () =>
 
 Write your distributed logic with the well-known fish and get the public state as easy as possible.
 
-### Example
+### 📖 Example
 
 ```js
 const MaterialRequest = ({ id }: Props) => {
-  const [mrState, setId] = useFish(MaterialRequestFish, id)
+  const matReq = useFish(MatRequest.of, id)
 
   return (
     <div>
       <div>
-        Material Request ({ id }): mrState.state.status
+        Material Request ({id}): {matReq.state.status}
       </div>
-      <button onClick={() => mrState.run(() => [{tags: [`material:${id}`], payload: EventType.Done })}>
+      <button
+        onClick={() =>
+          matReq.run((_state, enqueue) => enqueue(Tag('material').withId(id), EventType.Done))
+        }
+      >
         Done
       </button>
     </div>
@@ -59,11 +63,41 @@ const MaterialRequest = ({ id }: Props) => {
 }
 ```
 
+## 🐟🐟🐟 `useRegistryFish`
+
+Map your registry fish to the entities and create tables, lists, complex autocomplete fields, ...
+
+### 📖 Example
+
+```js
+const MaterialRequests = () => {
+  const allOpenMatReq = useRegistryFish(MatRequest.allOpen, reg => reg.ids, MatRequestFish.of)
+
+  const done = (matReq: ReactFish<State, Events, string>) => {
+    matReq.run((_state, enqueue) => enqueue(Tag('material').withId(matReq.props), EventType.Done))
+  }
+
+  return (
+    <div>
+      <div>Open Material Requests: {allOpenMatReq.length}</div>
+      {allOpenMatReq.map(matReq => (
+        <div key={matReq.props}>
+          <div>
+            {matReq.props}: {matReq.state.status}
+          </div>
+          <button onClick={() => done(matReq)}>Done</button>
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
 ## 🌊 `usePond`
 
-the pond is not hidden from you. Use it as usual with `const pond = usePond()`.
+The pond is not hidden from you. Use it as usual with `const pond = usePond()`.
 
-### Example
+### 📖 Example
 
 ```js
 const Example = () => {
@@ -71,7 +105,7 @@ const Example = () => {
   const [nodeConnectivity, setNodeConnectivity] = React.useState<ConnectivityStatus>()
   React.useEffect(() => {
     getNodeConnectivity({ callback: setNodeConnectivity })
-  })
+  }, [])
 
   return <div>
     <div>{JSON.stringify(nodeConnectivity)}</div>

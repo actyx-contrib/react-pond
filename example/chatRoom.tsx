@@ -17,40 +17,34 @@
 import * as React from 'react'
 import { useState } from 'react'
 import * as ReactDOM from 'react-dom'
-import { Pond, useFish } from '../src'
-import { ChatRoom, EventType } from './fish/chatRoomFish'
-
-export const start = () => {
-  ReactDOM.render(
-    <Pond>
-      <Chat />
-    </Pond>,
-    document.getElementById('root')
-  )
-}
+import { Pond, useFishFn, useFish, useRegistryFish } from '../src'
+import { ChatRoom } from './fish/chatRoomFish'
 
 export const Chat = () => {
   const [message, setMessage] = useState('')
   const [userName, setUserName] = useState('user')
-  const [chatRoomFish, setChatRoomName] = useFish(ChatRoom.fishForChannel, 'lobby')
-
-  const chatRoomName = chatRoomFish?.props
+  const [channel, setChannel] = useState('lobby')
+  const chatRoomFish = useFishFn(ChatRoom.forChannel, channel)
+  const chatRoomListFish = useFish(ChatRoom.channelList)
+  const allChatRooms = useRegistryFish(ChatRoom.channelList, s => s, ChatRoom.forChannel)
 
   return (
     <div>
       <div>
         current chat room:&nbsp;
-        <input
-          onChange={({ target }) => target.value !== chatRoomName && setChatRoomName(target.value)}
-          value={chatRoomName ? chatRoomName : ''}
-        />
+        <input onChange={({ target }) => setChannel(target.value)} value={channel} />
+        {chatRoomListFish.state.map(name => (
+          <button key={name} onClick={() => setChannel(name)}>
+            {name}
+          </button>
+        ))}
+        {allChatRooms.map(f => (
+          <div key={f.props}>{f.props + ': ' + f.state.join(', ')}</div>
+        ))}
       </div>
       <div>
         username:&nbsp;
-        <input
-          onChange={({ target }) => target.value !== userName && setUserName(target.value)}
-          value={userName}
-        />
+        <input onChange={({ target }) => setUserName(target.value)} value={userName} />
       </div>
       <hr />
       {chatRoomFish && (
@@ -62,18 +56,17 @@ export const Chat = () => {
           </div>
           <div>
             Your message:&nbsp;
-            <input
-              onChange={({ target }) => target.value !== message && setMessage(target.value)}
-              value={message}
-            />
+            <input onChange={({ target }) => setMessage(target.value)} value={message} />
             <button
               onClick={() =>
-                chatRoomFish.run(() => [
-                  {
-                    tags: ChatRoom.tags.channel.withId(chatRoomName),
-                    payload: { type: EventType.message, message, sender: userName }
-                  }
-                ])
+                chatRoomFish.run((_state, enqueue) =>
+                  enqueue(ChatRoom.tags.channel.withId(channel), {
+                    type: 'message',
+                    message,
+                    sender: userName,
+                    channel
+                  })
+                )
               }
             >
               send
@@ -85,4 +78,9 @@ export const Chat = () => {
   )
 }
 
-start()
+ReactDOM.render(
+  <Pond>
+    <Chat />
+  </Pond>,
+  document.getElementById('root')
+)

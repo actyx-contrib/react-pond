@@ -14,44 +14,47 @@
  * limitations under the License.
  */
 
-import { Fish, FishId, Reduce, Tag } from '@actyx/pond'
+import { Fish, FishId, Tag } from '@actyx/pond'
 
-/*
- * Fish State
- */
-export type State = string[]
-
-/**
- * Fish Events
- */
-export enum EventType {
-  message = 'message'
-}
+// Fish Events
 export type MessageEvent = {
-  type: EventType.message
+  type: 'message'
   sender: string
   message: string
-}
-export type Event = MessageEvent
-
-export const onEvent: Reduce<State, Event> = (state, event) => {
-  switch (event.type) {
-    case EventType.message: {
-      const newMessage = `${event.sender}: ${event.message}`
-      state.push(newMessage)
-    }
-  }
-  return state
+  channel: string
 }
 
+// Fish tags
 const tags = {
-  channel: Tag<Event>('channel')
+  channel: Tag<MessageEvent>('channel')
 }
-const fishForChannel = (channel: string): Fish<State, Event> => ({
-  fishId: FishId.of('com.example.chatRoom', channel, 0),
-  initialState: [],
-  onEvent,
-  where: tags.channel.withId(channel)
-})
 
-export const ChatRoom = { fishForChannel, tags }
+export const ChatRoom = {
+  /** chat room tags */
+  tags,
+  /** fish factory for a specific channel */
+  forChannel: (channel: string): Fish<string[], MessageEvent> => ({
+    fishId: FishId.of('com.example.chatRoom', channel, 0),
+    initialState: [],
+    onEvent: (state, event) => {
+      if (event.type === 'message') {
+        const newMessage = `${event.sender}: ${event.message}`
+        state.push(newMessage)
+      }
+      return state
+    },
+    where: tags.channel.withId(channel)
+  }),
+  /** fish that lists all open channels */
+  channelList: {
+    fishId: FishId.of('com.example.chatRoomRegistry', 'registry', 0),
+    initialState: [],
+    onEvent: (state, event) => {
+      if (event.type === 'message' && event.channel && !state.includes(event.channel)) {
+        state.push(event.channel)
+      }
+      return state
+    },
+    where: tags.channel
+  } as Fish<string[], MessageEvent>
+}
