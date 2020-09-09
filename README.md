@@ -63,7 +63,7 @@ const MaterialRequest = ({ id }: Props) => {
 }
 ```
 
-## 🐟🐟🐟 `useRegistryFish`
+## 🎏 `useRegistryFish`
 
 Map your registry fish to the entities and create tables, lists, complex autocomplete fields, ...
 
