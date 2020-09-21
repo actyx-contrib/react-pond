@@ -18,3 +18,4 @@ add-license-text
 .editorconfig
 icon.png
 docs
+dist

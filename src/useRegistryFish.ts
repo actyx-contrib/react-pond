@@ -44,7 +44,8 @@ import { ReactFish, mkReactFish } from './useFish'
  * @returns ReactFish[] entities of the registry
  */
 export const useRegistryFish = <RegState, State, Events, Props>(
-  regFish: Fish<RegState, unknown>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  regFish: Fish<RegState, any>,
   map: (regState: RegState) => Props[],
   mkFish: (props: Props) => Fish<State, Events>
 ): ReactFish<State, Events, Props>[] => {
