@@ -17,6 +17,7 @@ import { Fish, CancelSubscription } from '@actyx/pond'
 import * as React from 'react'
 import { usePond } from './Pond'
 import { ReactFish, mkReactFish } from './useFish'
+import equal from 'deep-equal'
 
 /**
  * Stateful integration of an actyx Pond Fish factory.
@@ -50,14 +51,25 @@ export const useRegistryFish = <RegState, State, Events, Props>(
   mkFish: (props: Props) => Fish<State, Events>
 ): ReactFish<State, Events, Props>[] => {
   const pond = usePond()
-  const [liveMode, setLiveMode] = React.useState(false)
   const [regProps, setRegProps] = React.useState<Props[]>()
   const [entityFishCancel, setEntityFishCancel] = React.useState<CancelSubscription[]>([])
   const [entityStates, setEntityStates] = React.useState<ReactFish<State, Events, Props>[]>([])
 
-  React.useEffect(() => pond.observe(regFish, s => setRegProps(map(s))), [])
+  React.useEffect(
+    () =>
+      pond.observe(regFish, s => {
+        const newRegProps = map(s)
+        if (!equal(newRegProps, regProps)) {
+          setRegProps(newRegProps)
+        }
+      }),
+    [regProps]
+  )
   React.useEffect(() => {
     if (regProps) {
+      // just internal this should not trigger react for re-render or updateing the useEffect
+      let liveMode = false
+      let states: ReactFish<State, Events, Props>[] = []
       Promise.all(
         regProps.map(
           (properties, idx) =>
@@ -66,9 +78,8 @@ export const useRegistryFish = <RegState, State, Events, Props>(
               const c = pond.observe(mkFish(properties), newState => {
                 const reactFish = mkReactFish(pond, mkFish(properties), newState, properties)
                 if (liveMode) {
-                  const newState = [...entityStates]
-                  newState[idx] = reactFish
-                  setEntityStates(newState)
+                  states[idx] = reactFish
+                  setEntityStates([...states])
                 } else {
                   if (!c) {
                     resolveExternal = reactFish
@@ -83,16 +94,14 @@ export const useRegistryFish = <RegState, State, Events, Props>(
             })
         )
       ).then(out => {
-        setLiveMode(true)
+        liveMode = true
+        states = out.map(e => e[1])
         setEntityFishCancel(out.map(e => e[0]))
-        setEntityStates(out.map(e => e[1]))
+        setEntityStates(states)
       })
     }
 
-    return () => {
-      entityFishCancel.forEach(c => c())
-      setLiveMode(false)
-    }
+    return () => entityFishCancel.forEach(c => c())
   }, [regProps])
 
   return entityStates
