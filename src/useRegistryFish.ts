@@ -52,7 +52,6 @@ export const useRegistryFish = <RegState, State, Events, Props>(
 ): ReactFish<State, Events, Props>[] => {
   const pond = usePond()
   const [regProps, setRegProps] = React.useState<Props[]>()
-  const [entityFishCancel, setEntityFishCancel] = React.useState<CancelSubscription[]>([])
   const [entityStates, setEntityStates] = React.useState<ReactFish<State, Events, Props>[]>([])
 
   React.useEffect(
@@ -66,6 +65,7 @@ export const useRegistryFish = <RegState, State, Events, Props>(
     [regProps]
   )
   React.useEffect(() => {
+    let entityFishCancel: CancelSubscription[] = []
     if (regProps) {
       // just internal this should not trigger react for re-render or updateing the useEffect
       let liveMode = false
@@ -96,7 +96,7 @@ export const useRegistryFish = <RegState, State, Events, Props>(
       ).then(out => {
         liveMode = true
         states = out.map(e => e[1])
-        setEntityFishCancel(out.map(e => e[0]))
+        entityFishCancel = out.map(e => e[0])
         setEntityStates(states)
       })
     }
