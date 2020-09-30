@@ -32,7 +32,7 @@ type PondProps = {
   loadComponent?: JSX.Element
   /** Error callback the the pond is not able to reach actyxOS locally */
   onError?: (error: unknown) => void
-  /** optional url to overwrite to local connection and connect to an other peer */
+  /** optional url to overwrite to local connection and connect to an other peer (default: `ws://localhost:4243/store_api`) */
   url?: string
   /** Hook, when the connection to the store is closed */
   onStoreConnectionClosed?: () => void
@@ -77,7 +77,7 @@ export const Pond = ({
       return
     }
 
-    PondType.of({ url, onStoreConnectionClosed }, {})
+    PondType.of({ url: url || 'ws://localhost:4243/store_api', onStoreConnectionClosed }, {})
       .then(p => {
         singletonPond = p
         setPond(p)
