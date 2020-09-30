@@ -32,6 +32,10 @@ type PondProps = {
   loadComponent?: JSX.Element
   /** Error callback the the pond is not able to reach actyxOS locally */
   onError?: (error: unknown) => void
+  /** optional url to overwrite to local connection and connect to an other peer */
+  url?: string
+  /** Hook, when the connection to the store is closed */
+  onStoreConnectionClosed?: () => void
 }
 
 /** @internal */
@@ -56,7 +60,13 @@ let singletonPond: PondType | undefined = undefined
  * @param onError Error callback the the pond is not able to reach actyxOS locally
  * @returns React component
  */
-export const Pond = ({ children, loadComponent, onError }: PondProps) => {
+export const Pond = ({
+  children,
+  loadComponent,
+  onError,
+  url,
+  onStoreConnectionClosed
+}: PondProps) => {
   const [pond, setPond] = React.useState<PondType>()
   React.useEffect(() => {
     if (singletonPond) {
@@ -67,7 +77,7 @@ export const Pond = ({ children, loadComponent, onError }: PondProps) => {
       return
     }
 
-    PondType.default()
+    PondType.of({ url, onStoreConnectionClosed }, {})
       .then(p => {
         singletonPond = p
         setPond(p)
