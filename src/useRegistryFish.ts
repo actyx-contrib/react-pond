@@ -47,7 +47,7 @@ import equal from 'deep-equal'
 export const useRegistryFish = <RegState, State, Events, Props>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   regFish: Fish<RegState, any>,
-  map: (regState: RegState) => Props[],
+  map: (regState: RegState) => (Props | undefined)[],
   mkFish: (props: Props) => Fish<State, Events>
 ): ReactFish<State, Events, Props>[] => {
   const pond = usePond()
@@ -57,7 +57,7 @@ export const useRegistryFish = <RegState, State, Events, Props>(
   React.useEffect(
     () =>
       pond.observe(regFish, s => {
-        const newRegProps = map(s)
+        const newRegProps = map(s).filter((s): s is Props => s !== undefined)
         if (!equal(newRegProps, regProps)) {
           setRegProps(newRegProps)
         }
