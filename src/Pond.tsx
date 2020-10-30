@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { Pond as PondType } from '@actyx/pond'
+import { mkMultiplexer } from '@actyx/pond/lib/eventstore/utils'
 import * as React from 'react'
 
 /** @internal */
@@ -32,6 +33,8 @@ type PondProps = {
   loadComponent?: JSX.Element
   /** Error callback the the pond is not able to reach actyxOS locally */
   onError?: (error: unknown) => void
+  /** Url to the ActyxOS (default: "ws://localhost:4243/store_api") */
+  url?: string
 }
 
 /** @internal */
@@ -56,7 +59,7 @@ let singletonPond: PondType | undefined = undefined
  * @param onError Error callback the the pond is not able to reach actyxOS locally
  * @returns React component
  */
-export const Pond = ({ children, loadComponent, onError }: PondProps) => {
+export const Pond = ({ children, loadComponent, onError, url }: PondProps) => {
   const [pond, setPond] = React.useState<PondType>()
   React.useEffect(() => {
     if (singletonPond) {
@@ -67,7 +70,8 @@ export const Pond = ({ children, loadComponent, onError }: PondProps) => {
       return
     }
 
-    PondType.default()
+    const mkPond = Boolean(url) ? PondType.of(mkMultiplexer({ url })) : PondType.default()
+    mkPond
       .then(p => {
         singletonPond = p
         setPond(p)
