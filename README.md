@@ -27,27 +27,31 @@ Wrap your application with the `<Pond>` to use you fish everywhere in the code.
 ### Example
 
 ```js
-export const wireUI = () =>
-  ReactDOM.render(
-    <Pond>
-      <AmazingDistributedApp />
-    </Pond>,
-    document.getElementById('root')!,
-  )
+ReactDOM.render(
+  <Pond>
+    <AmazingDistributedApp />
+  </Pond>,
+  document.getElementById('root')!,
+)
 ```
 
-## 🐟 `useFish`
+## 🐟 `useFish` and `useFishFn`
 
 Write your distributed logic with the well-known fish and get the public state as easy as possible.
+
+- `useFish(fish)`: Hydrate one explicit fish without a factory
+- `useFish(fishFactory, properties)`: Use a factory function to hydrate fish with properties
 
 ### 📖 Example
 
 ```js
 const MaterialRequest = ({ id }: Props) => {
-  const matReq = useFish(MatRequest.of, id)
+  const allOpenMatReq = useFish(MatRequest.allOpen)
+  const matReq = useFishFn(MatRequest.of, id)
 
   return (
     <div>
+      <div>Open Material Requests: {allOpenMatReq.ids.length}</div>
       <div>
         Material Request ({id}): {matReq.state.status}
       </div>
@@ -104,7 +108,7 @@ const Example = () => {
   const pond = usePond()
   const [nodeConnectivity, setNodeConnectivity] = React.useState<ConnectivityStatus>()
   React.useEffect(() => {
-    getNodeConnectivity({ callback: setNodeConnectivity })
+    pond.getNodeConnectivity({ callback: setNodeConnectivity })
   }, [])
 
   return <div>

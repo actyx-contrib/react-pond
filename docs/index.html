@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@actyx-contrib/react-pond - v2.0.0-rc6 | @actyx-contrib/react-pond - v2.0.0-rc6</title>
-	<meta name="description" content="Documentation for @actyx-contrib/react-pond - v2.0.0-rc6">
+	<title>@actyx-contrib/react-pond - v2.0.0 | @actyx-contrib/react-pond - v2.0.0</title>
+	<meta name="description" content="Documentation for @actyx-contrib/react-pond - v2.0.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
 /* ==========================================================================
@@ -2692,7 +2692,7 @@ img {
 		<div class="container">
 			<div class="table-wrap">
 				<div class="table-cell">
-					<strong><a href="index.html">@actyx-contrib/react-pond - v2.0.0-rc6</a></strong>
+					<strong><a href="index.html">@actyx-contrib/react-pond - v2.0.0</a></strong>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -2780,18 +2780,24 @@ img {
     <span class="hljs-tag">&lt;/<span class="hljs-name">Pond</span>&gt;</span></span>,
     <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;root&#x27;</span>)!,
   )</code></pre>
-			<a href="#🐟-usefish" id="🐟-usefish" style="color: inherit; text-decoration: none;">
-				<h2>🐟 <code>useFish</code></h2>
+			<a href="#🐟-usefish-and-usefishfn" id="🐟-usefish-and-usefishfn" style="color: inherit; text-decoration: none;">
+				<h2>🐟 <code>useFish</code> and <code>useFishFn</code></h2>
 			</a>
 			<p>Write your distributed logic with the well-known fish and get the public state as easy as possible.</p>
+			<ul>
+				<li><code>useFish(fish)</code>: Hydrate one explicit fish without a factory</li>
+				<li><code>useFish(fishFactory, properties)</code>: Use a factory function to hydrate fish with properties</li>
+			</ul>
 			<a href="#📖-example" id="📖-example" style="color: inherit; text-decoration: none;">
 				<h3>📖 Example</h3>
 			</a>
 			<pre><code class="language-js"><span class="hljs-keyword">const</span> MaterialRequest = <span class="hljs-function">(<span class="hljs-params">{ id }: Props</span>) =&gt;</span> {
-  <span class="hljs-keyword">const</span> matReq = useFish(MatRequest.of, id)
+  <span class="hljs-keyword">const</span> allOpenMatReq = useFish(MatRequest.allOpen)
+  <span class="hljs-keyword">const</span> matReq = useFishFn(MatRequest.of, id)
 
   <span class="hljs-keyword">return</span> (
     <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Open Material Requests: {allOpenMatReq.ids.length}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
         Material Request ({id}): {matReq.state.status}
       <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
@@ -2844,7 +2850,7 @@ img {
   <span class="hljs-keyword">const</span> pond = usePond()
   <span class="hljs-keyword">const</span> [nodeConnectivity, setNodeConnectivity] = React.useState&lt;ConnectivityStatus&gt;()
   React.useEffect(<span class="hljs-function">() =&gt;</span> {
-    getNodeConnectivity({ <span class="hljs-attr">callback</span>: setNodeConnectivity })
+    pond.getNodeConnectivity({ <span class="hljs-attr">callback</span>: setNodeConnectivity })
   }, [])
 
   <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
@@ -2885,7 +2891,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Pond<wbr>Props<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>children<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ReactNode</span><span class="tsd-signature-symbol">; </span>loadComponent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">JSX.Element</span><span class="tsd-signature-symbol">; </span>onError<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">; </span>onStoreConnectionClosed<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">; </span>url<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/5db4a09/src/Pond.tsx#L28">src/Pond.tsx:28</a></li>
+						<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/6ba6b73/src/Pond.tsx#L28">src/Pond.tsx:28</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2945,7 +2951,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">React<wbr>Fish&lt;State, Event, Props&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">; </span>run<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>eff<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">StateEffect</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">State</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">State</span><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/5db4a09/src/useFish.ts#L25">src/useFish.ts:25</a></li>
+						<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/6ba6b73/src/useFish.ts#L25">src/useFish.ts:25</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3027,7 +3033,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/5db4a09/src/Pond.tsx#L63">src/Pond.tsx:63</a></li>
+								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/6ba6b73/src/Pond.tsx#L63">src/Pond.tsx:63</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3087,7 +3093,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/5db4a09/src/useFish.ts#L144">src/useFish.ts:144</a></li>
+								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/6ba6b73/src/useFish.ts#L144">src/useFish.ts:144</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3146,7 +3152,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/5db4a09/src/useFish.ts#L96">src/useFish.ts:96</a></li>
+								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/6ba6b73/src/useFish.ts#L96">src/useFish.ts:96</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3249,7 +3255,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/5db4a09/src/Pond.tsx#L121">src/Pond.tsx:121</a></li>
+								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/6ba6b73/src/Pond.tsx#L121">src/Pond.tsx:121</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3281,13 +3287,13 @@ waitForSwarmSync(params: WaitForSwarmSyncParams): <span class="hljs-built_in">vo
 				<a name="useregistryfish" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagConst">Const</span> use<wbr>Registry<wbr>Fish</h3>
 				<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
-					<li class="tsd-signature tsd-kind-icon">use<wbr>Registry<wbr>Fish&lt;RegState, State, Events, Props&gt;<span class="tsd-signature-symbol">(</span>regFish<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Fish</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RegState</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>regState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegState</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">[]</span>, mkFish<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Fish</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">State</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Events</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="globals.html#reactfish" class="tsd-signature-type">ReactFish</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">State</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Events</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></li>
+					<li class="tsd-signature tsd-kind-icon">use<wbr>Registry<wbr>Fish&lt;RegState, State, Events, Props&gt;<span class="tsd-signature-symbol">(</span>regFish<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Fish</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RegState</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>regState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegState</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span>, mkFish<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Fish</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">State</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Events</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="globals.html#reactfish" class="tsd-signature-type">ReactFish</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">State</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Events</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/5db4a09/src/useRegistryFish.ts#L47">src/useRegistryFish.ts:47</a></li>
+								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/6ba6b73/src/useRegistryFish.ts#L47">src/useRegistryFish.ts:47</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3336,7 +3342,7 @@ waitForSwarmSync(params: WaitForSwarmSyncParams): <span class="hljs-built_in">vo
 								</div>
 							</li>
 							<li>
-								<h5>map: <span class="tsd-signature-symbol">(</span>regState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegState</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">[]</span></h5>
+								<h5>map: <span class="tsd-signature-symbol">(</span>regState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegState</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>map the registry state to an array of properties used by the mkFish</p>
@@ -3345,7 +3351,7 @@ waitForSwarmSync(params: WaitForSwarmSyncParams): <span class="hljs-built_in">vo
 								<ul class="tsd-parameters">
 									<li class="tsd-parameter-signature">
 										<ul class="tsd-signatures tsd-kind-type-literal">
-											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>regState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegState</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">[]</span></li>
+											<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>regState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegState</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
@@ -3355,7 +3361,7 @@ waitForSwarmSync(params: WaitForSwarmSyncParams): <span class="hljs-built_in">vo
 														<h5>regState: <span class="tsd-signature-type">RegState</span></h5>
 													</li>
 												</ul>
-												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">[]</span></h4>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h4>
 											</li>
 										</ul>
 									</li>
