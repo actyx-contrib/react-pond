@@ -40,7 +40,7 @@ ReactDOM.render(
 Write your distributed logic with the well-known fish and get the public state as easy as possible.
 
 - `useFish(fish)`: Hydrate one explicit fish without a factory
-- `useFish(fishFactory, properties)`: Use a factory function to hydrate fish with properties
+- `useFishFn(fishFactory, properties)`: Use a factory function to hydrate fish with properties
 
 ### 📖 Example
 
