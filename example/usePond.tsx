@@ -13,20 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Pond, usePond, useStream } from '@actyx-contrib/react-pond'
+import { Pond, usePond } from '../src'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import { ConnectivityStatus } from '@actyx/pond'
+import { PondState } from '@actyx/pond/lib/pond-state'
 
 export const App = () => {
-  const { getNodeConnectivity, getPondState, info } = usePond()
-  const [nodeConnectivity] = useStream(getNodeConnectivity())
-  const [pondState] = useStream(getPondState())
+  const { info, getNodeConnectivity, getPondState } = usePond()
+  const [nodeConnectivity, setNodeConnectivity] = React.useState<ConnectivityStatus>()
+  const [pondState, setPondState] = React.useState<PondState>()
+  React.useEffect(() => {
+    getNodeConnectivity({ callback: setNodeConnectivity })
+    getPondState(setPondState)
+  }, [])
 
   return (
     <div>
-      <div>{JSON.stringify(nodeConnectivity)}</div>
-      <div>{JSON.stringify(pondState)}</div>
-      <div>{JSON.stringify(info())}</div>
+      <h3>Node Connectivity</h3>
+      <pre>{JSON.stringify(nodeConnectivity, undefined, 2)}</pre>
+      <hr />
+      <h3>Pond State</h3>
+      <pre>{JSON.stringify(pondState, undefined, 2)}</pre>
+      <hr />
+      <h3>Pond Info</h3>
+      <pre>{JSON.stringify(info(), undefined, 2)}</pre>
     </div>
   )
 }

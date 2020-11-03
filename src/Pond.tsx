@@ -32,6 +32,10 @@ type PondProps = {
   loadComponent?: JSX.Element
   /** Error callback the the pond is not able to reach actyxOS locally */
   onError?: (error: unknown) => void
+  /** optional url to overwrite to local connection and connect to an other peer (default: `ws://localhost:4243/store_api`) */
+  url?: string
+  /** Hook, when the connection to the store is closed */
+  onStoreConnectionClosed?: () => void
 }
 
 /** @internal */
@@ -56,7 +60,13 @@ let singletonPond: PondType | undefined = undefined
  * @param onError Error callback the the pond is not able to reach actyxOS locally
  * @returns React component
  */
-export const Pond = ({ children, loadComponent, onError }: PondProps) => {
+export const Pond = ({
+  children,
+  loadComponent,
+  onError,
+  url,
+  onStoreConnectionClosed
+}: PondProps) => {
   const [pond, setPond] = React.useState<PondType>()
   React.useEffect(() => {
     if (singletonPond) {
@@ -67,7 +77,7 @@ export const Pond = ({ children, loadComponent, onError }: PondProps) => {
       return
     }
 
-    PondType.default()
+    PondType.of({ url: url || 'ws://localhost:4243/store_api', onStoreConnectionClosed }, {})
       .then(p => {
         singletonPond = p
         setPond(p)
@@ -91,18 +101,18 @@ export const Pond = ({ children, loadComponent, onError }: PondProps) => {
 /**
  * Get the pond in your react application.
  *
- * Get more info about the pond: https://developer.actyx.com/docs/pond/getting-started
+ * Learn more about the pond: https://developer.actyx.com/docs/pond/getting-started
  *
  * ```typescript
- * observe<C, E, P>(fish: FishType<C, E, P>, name: string): Observable<P>;
- * feed<C, E, P>(fish: FishType<C, E, P>, name: string): (command: C) => Observable<void>;
- * commands(): Observable<SendCommand<any>>;
- * dump(): Observable<string>;
- * dispose(): Promise<void>;
+ * emit<E>(tags: Tags<E>, event: E): PendingEmission;
+ * observe<S, E>(fish: Fish<S, E>, callback: (newState: S) => void): CancelSubscription;
+ * run<S, EWrite>(fish: Fish<S, any>, fn: StateEffect<S, EWrite>): PendingEmission;
+ * keepRunning<S, EWrite>(fish: Fish<S, any>, fn: StateEffect<S, EWrite>, autoCancel?: (state: S) => boolean): CancelSubscription;
+ * dispose(): void;
  * info(): PondInfo;
- * getPondState(): Observable<PondState>;
- * getNodeConnectivity(...specialSources: ReadonlyArray<SourceId>): Observable<ConnectivityStatus>;
- * waitForSwarmSync(config?: WaitForSwarmConfig): Observable<SplashState>;
+ * getPondState(callback: (newState: PondState) => void): CancelSubscription;
+ * getNodeConnectivity(params: GetNodeConnectivityParams): CancelSubscription;
+ * waitForSwarmSync(params: WaitForSwarmSyncParams): void;
  * ```
  *
  * @returns pond instance
