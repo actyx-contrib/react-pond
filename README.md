@@ -51,7 +51,7 @@ const MaterialRequest = ({ id }: Props) => {
 
   return (
     <div>
-      <div>Open Material Requests: {allOpenMatReq.ids.length}</div>
+      <div>Open Material Requests: {allOpenMatReq && allOpenMatReq.ids.length}</div>
       <div>
         Material Request ({id}): {matReq.state.status}
       </div>

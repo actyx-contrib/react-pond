@@ -34,11 +34,12 @@ export const Chat = () => {
       <div>
         current chat room:{' '}
         <input onChange={({ target }) => setChannel(target.value)} value={channel} />
-        {chatRoomListFish.state.map(name => (
-          <button key={name} onClick={() => setChannel(name)}>
-            {name}
-          </button>
-        ))}
+        {chatRoomListFish &&
+          chatRoomListFish.state.map(name => (
+            <button key={name} onClick={() => setChannel(name)}>
+              {name}
+            </button>
+          ))}
         {allChatRooms.map(f => (
           <div key={f.props}>
             {f.props} : {f.state.join(', ')}

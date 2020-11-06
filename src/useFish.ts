@@ -91,7 +91,7 @@ export const mkReactFish = <State, Events, Props>(
  *
  * @param fish fish factory function to get the public state for
  * @param props props for the factory
- * @returns ReactFish | undefined If the props are undefined
+ * @returns ReactFish | undefined If the props are undefined or the fish is hydrating
  */
 export const useFishFn = <State, Events, Props>(
   mkFish: (props: Props) => Fish<State, Events>,
@@ -131,7 +131,7 @@ export const useFishFn = <State, Events, Props>(
  *     <div>
  *       <div>List of existing chat rooms</div>
  *       <ul>
- *         {chatRoomsFish.map((name) => <li key={name}>{name}</li>)}
+ *         {chatRoomsFish && chatRoomsFish.map((name) => <li key={name}>{name}</li>)}
  *       </ul>
  *     </div>
  *   )
@@ -139,15 +139,13 @@ export const useFishFn = <State, Events, Props>(
  * ```
  *
  * @param fish fish to get the public state for
- * @returns ReactFish
+ * @returns ReactFish or undefined as log the pond is hydrating the fish
  */
 export const useFish = <State, Events>(
   fish: Fish<State, Events>
-): ReactFish<State, Events, void> => {
+): ReactFish<State, Events, void> | void => {
   const pond = usePond()
-  const [reactFish, setReactFish] = React.useState<ReactFish<State, Events, void>>(
-    mkReactFish(pond, fish, fish.initialState, undefined)
-  )
+  const [reactFish, setReactFish] = React.useState<ReactFish<State, Events, void> | void>()
   React.useEffect(
     () =>
       pond.observe(fish, newState => {
