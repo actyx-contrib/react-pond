@@ -101,7 +101,7 @@ export const useFishFn = <State, Events, Props>(
   const [reactFish, setReactFish] = React.useState<ReactFish<State, Events, Props> | undefined>()
 
   React.useEffect(() => {
-    if (props) {
+    if (props !== undefined) {
       const fish = mkFish(props)
       const sub = pond.observe(fish, newState => {
         const reactFish = mkReactFish<State, Events, Props>(pond, fish, newState, props)
@@ -154,7 +154,7 @@ export const useFish = <State, Events>(
         const reactFish = mkReactFish(pond, fish, newState, undefined)
         setReactFish(reactFish)
       }),
-    []
+    [fish]
   )
 
   return reactFish
