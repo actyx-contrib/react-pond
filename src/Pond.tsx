@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Pond as PondType } from '@actyx/pond'
+import { Pond as PondType, PondOptions } from '@actyx/pond'
 import * as React from 'react'
 
 /** @internal */
@@ -31,11 +31,13 @@ type PondProps = {
   /** Component to show during the connect (very shortly) */
   loadComponent?: JSX.Element
   /** Error callback the the pond is not able to reach actyxOS locally */
-  onError?: (error: unknown) => void
+  onError?: (error: unknown) => void | JSX.Element
   /** optional url to overwrite to local connection and connect to an other peer (default: `ws://localhost:4243/store_api`) */
   url?: string
   /** Hook, when the connection to the store is closed */
   onStoreConnectionClosed?: () => void
+  /** Advanced configuration options for the Pond. */
+  pondOptions?: PondOptions
 }
 
 /** @internal */
@@ -65,26 +67,43 @@ export const Pond = ({
   loadComponent,
   onError,
   url,
-  onStoreConnectionClosed
+  onStoreConnectionClosed,
+  pondOptions
 }: PondProps) => {
   const [pond, setPond] = React.useState<PondType>()
+  const [errorStateComponent, setErrorStateComponent] = React.useState<JSX.Element | undefined>(
+    undefined
+  )
+
+  if (onError === undefined) {
+    console.warn(
+      'Not providing an onError handler is deprecated. Add a mechanism (e.g. reload) for handling connection problems with Actyx'
+    )
+  }
+
   React.useEffect(() => {
     if (singletonPond) {
-      console.error(
+      console.warn(
         'Warning: Reuse existing pond, Please initialize the Pond only once at top level'
       )
       setPond(singletonPond)
       return
     }
 
-    PondType.of({ url: url || 'ws://localhost:4243/store_api', onStoreConnectionClosed }, {})
+    PondType.of(
+      { url: url || 'ws://localhost:4243/store_api', onStoreConnectionClosed },
+      pondOptions || {}
+    )
       .then(p => {
         singletonPond = p
         setPond(p)
       })
       .catch(e => {
         if (onError) {
-          onError(e)
+          const errorComp = onError(e)
+          if (errorComp) {
+            setErrorStateComponent(errorComp)
+          }
         } else {
           throw new Error(`Is ActyxOS running ${e}`)
         }
@@ -93,6 +112,8 @@ export const Pond = ({
 
   if (pond) {
     return <pondContext.Provider value={pond}>{children}</pondContext.Provider>
+  } else if (errorStateComponent) {
+    return errorStateComponent
   } else {
     return loadComponent !== undefined ? loadComponent : <></>
   }
