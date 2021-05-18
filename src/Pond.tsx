@@ -31,7 +31,7 @@ type PondProps = {
   /** Component to show during the connect (very shortly) */
   loadComponent?: JSX.Element
   /** Error callback the the pond is not able to reach actyxOS locally */
-  onError?: (error: unknown) => JSX.Element
+  onError?: (error: unknown) => void | JSX.Element
   /** optional url to overwrite to local connection and connect to an other peer (default: `ws://localhost:4243/store_api`) */
   url?: string
   /** Hook, when the connection to the store is closed */
@@ -71,6 +71,9 @@ export const Pond = ({
   pondOptions
 }: PondProps) => {
   const [pond, setPond] = React.useState<PondType>()
+  const [errorStateComponent, setErrorStateComponent] = React.useState<JSX.Element | undefined>(
+    undefined
+  )
 
   if (onError === undefined) {
     console.warn(
@@ -97,7 +100,10 @@ export const Pond = ({
       })
       .catch(e => {
         if (onError) {
-          onError(e)
+          const errorComp = onError(e)
+          if (errorComp) {
+            setErrorStateComponent(errorComp)
+          }
         } else {
           throw new Error(`Is ActyxOS running ${e}`)
         }
@@ -106,6 +112,8 @@ export const Pond = ({
 
   if (pond) {
     return <pondContext.Provider value={pond}>{children}</pondContext.Provider>
+  } else if (errorStateComponent) {
+    return errorStateComponent
   } else {
     return loadComponent !== undefined ? loadComponent : <></>
   }
