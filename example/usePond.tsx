@@ -44,9 +44,9 @@ export const App = () => {
 
 ReactDOM.render(
   <Pond
-    onError={() => {
+    onError={e => {
       setTimeout(() => location.reload(), 5000)
-      return <div>Connection to Actyx failed. Next retry in 5 seconde</div>
+      return <div>Connection to Actyx rejected {JSON.stringify(e)}.Next reconnect in 5 seconde</div>
     }}
     pondOptions={{
       stateEffectDebounce: 1000,
