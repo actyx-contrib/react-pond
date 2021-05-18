@@ -81,7 +81,12 @@ export const Chat = () => {
 }
 
 ReactDOM.render(
-  <Pond>
+  <Pond
+    onError={() => {
+      setTimeout(() => location.reload(), 2500)
+      return <div>Connection to Actyx failed. Next retry in 5 seconde</div>
+    }}
+  >
     <Chat />
   </Pond>,
   document.getElementById('root')
