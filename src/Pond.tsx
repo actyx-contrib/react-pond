@@ -69,29 +69,6 @@ const defaultManifest : AppManifest = {
 /** @internal */
 let singletonPond: PondType | undefined = undefined
 
-const onConnectionLostHandler = () => {}
-const fishErrorReporter = () => {}
-const e =() => (
-<Pond
-  manifest={{
-    appId: 'io.actyx.react-pond-example',
-    displayName: 'React Pond Example',
-    version: '0.0.1',
-    signature: 'v2tz...JBPT3/'
-  }}
-  connectionOpts={{
-    actyxHost: 'actyx',
-    actyxPort: 4232,
-    onConnectionLost: onConnectionLostHandler
-  }}
-  opts={{
-    fishErrorReporter: fishErrorReporter
-  }}
->
-  <div></div>
-</Pond>
-)
-
 /**
  * Top level component to initialize the pond
  *
