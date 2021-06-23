@@ -45,6 +45,12 @@ ReactDOM.render(
         <div>Connection to Actyx rejected: {JSON.stringify(e)}. Next reconnect in 5 seconds.</div>
       )
     }}
+    connectionOpts={{
+      onConnectionLost: () => console.error('connection dropped')
+    }}
+    opts={{
+      fishErrorReporter: (err, fishId, details) => console.error('fish error', err, fishId, details)
+    }}
   >
     <App />
   </Pond>,
