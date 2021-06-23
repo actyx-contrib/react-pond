@@ -16,22 +16,17 @@
 import { Pond, usePond } from '../src'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { ConnectivityStatus } from '@actyx/pond'
 import { PondState } from '@actyx/pond/lib/pond-state'
 
 export const App = () => {
-  const { info, getNodeConnectivity, getPondState } = usePond()
-  const [nodeConnectivity, setNodeConnectivity] = React.useState<ConnectivityStatus>()
+  const { info, getPondState } = usePond()
   const [pondState, setPondState] = React.useState<PondState>()
   React.useEffect(() => {
-    getNodeConnectivity({ callback: setNodeConnectivity })
     getPondState(setPondState)
   }, [])
 
   return (
     <div>
-      <h3>Node Connectivity</h3>
-      <pre>{JSON.stringify(nodeConnectivity, undefined, 2)}</pre>
       <hr />
       <h3>Pond State</h3>
       <pre>{JSON.stringify(pondState, undefined, 2)}</pre>
@@ -49,11 +44,6 @@ ReactDOM.render(
       return (
         <div>Connection to Actyx rejected: {JSON.stringify(e)}. Next reconnect in 5 seconds.</div>
       )
-    }}
-    pondOptions={{
-      stateEffectDebounce: 1000,
-      updateConnectivityEvery: 2000,
-      defaultSnapshotThreshold: 128
     }}
   >
     <App />
