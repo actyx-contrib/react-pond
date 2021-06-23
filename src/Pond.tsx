@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Pond as PondType, PondOptions } from '@actyx/pond'
+import { ActyxOpts, AppManifest, Pond as PondType, PondOptions } from '@actyx/pond'
 import * as React from 'react'
 
 /** @internal */
@@ -32,24 +32,98 @@ type PondProps = {
   loadComponent?: JSX.Element
   /** Error callback the the pond is not able to reach actyxOS locally */
   onError?: (error: unknown) => void | JSX.Element
-  /** optional url to overwrite to local connection and connect to an other peer (default: `ws://localhost:4243/store_api`) */
-  url?: string
-  /** Hook, when the connection to the store is closed */
-  onStoreConnectionClosed?: () => void
-  /** Advanced configuration options for the Pond. */
-  pondOptions?: PondOptions
+  /**
+   * Optionally change the Actyx endpoint the Pond connects to
+   * and provide an error handler if the connection to Actyx is dropped.
+   * Defaults to `{}`
+   * */
+  connectionOpts?: ActyxOpts
+  /** 
+   * Advanced Pond configuration options.
+   * Defaults to `{}`
+   *  */
+  opts?: PondOptions
+  /**
+   * Manifest describing an Actyx application. Used for authorizing API access.
+   * Use `com.example.<somestring>` as `appId` for testing and development purposes,
+   * so you don't require a signed certificate.
+   * 
+   * Defaults to
+   * ```
+   * {
+   *   appId: 'com.example.react-pond-example',
+   *   displayName: 'React Pond Example',
+   *   version: '0.0.1'
+   * }
+   * ```
+   * */
+  manifest?: AppManifest
+}
+
+const defaultManifest : AppManifest = {
+  appId: 'com.example.react-pond-example',
+  displayName: 'React Pond Example',
+  version: '0.0.1'
 }
 
 /** @internal */
 let singletonPond: PondType | undefined = undefined
 
+const onConnectionLostHandler = () => {}
+const fishErrorReporter = () => {}
+const e =() => (
+<Pond
+  manifest={{
+    appId: 'io.actyx.react-pond-example',
+    displayName: 'React Pond Example',
+    version: '0.0.1',
+    signature: 'v2tz...JBPT3/'
+  }}
+  connectionOpts={{
+    actyxHost: 'actyx',
+    actyxPort: 4232,
+    onConnectionLost: onConnectionLostHandler
+  }}
+  opts={{
+    fishErrorReporter: fishErrorReporter
+  }}
+>
+  <div></div>
+</Pond>
+)
+
 /**
  * Top level component to initialize the pond
  *
- * ## Example:
+ * ## Minimal example:
  * ```js
  * ReactDOM.render(
  *   <Pond>
+ *     <App />
+ *   </Pond>,
+ *   document.getElementById('root')
+ * )
+ * ```
+ * 
+ * ## Complete example:
+ * ```js
+ * ReactDOM.render(
+ *   <Pond
+ *    manifest={{
+ *     appId: 'io.actyx.react-pond-example',
+ *     displayName: 'React Pond Example',
+ *     version: '0.0.1',
+ *     signature: 'v2tz...JBPT3/'
+ *   }}
+ *   connectionOpts={{
+ *     actyxHost: 'actyx',
+ *     actyxPort: 4232,
+ *     onConnectionLost: onConnectionLostHandler
+ *   }}
+ *   opts={{
+ *     fishErrorReporter: fishErrorReporter
+ *   }}
+ *   >
  *     <App />
  *   </Pond>,
  *   document.getElementById('root')
@@ -66,9 +140,9 @@ export const Pond = ({
   children,
   loadComponent,
   onError,
-  url,
-  onStoreConnectionClosed,
-  pondOptions
+  manifest,
+  connectionOpts,
+  opts
 }: PondProps) => {
   const [pond, setPond] = React.useState<PondType>()
   const [errorStateComponent, setErrorStateComponent] = React.useState<JSX.Element | undefined>(
@@ -90,10 +164,7 @@ export const Pond = ({
       return
     }
 
-    PondType.of(
-      { url: url || 'ws://localhost:4243/store_api', onStoreConnectionClosed },
-      pondOptions || {}
-    )
+    PondType.of(manifest || defaultManifest, connectionOpts || {}, opts || {})
       .then(p => {
         singletonPond = p
         setPond(p)
