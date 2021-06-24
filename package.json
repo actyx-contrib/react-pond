@@ -1,6 +1,6 @@
 {
   "name": "@actyx-contrib/react-pond",
-  "version": "3.0.0-beta1",
+  "version": "3.0.0",
   "description": "Use the Actyx Pond framework fully integrated with React",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -27,7 +27,7 @@
     "@actyx/pond": "3"
   },
   "devDependencies": {
-    "@actyx/pond": "^3.0.0-beta1",
+    "@actyx/pond": "^3.0.0",
     "@types/deep-equal": "^1.0.1",
     "@types/react": "^16.9.43",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
