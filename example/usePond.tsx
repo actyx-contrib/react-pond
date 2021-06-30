@@ -39,6 +39,11 @@ export const App = () => {
 
 ReactDOM.render(
   <Pond
+    manifest={{
+      appId: 'com.example.react-pond-example',
+      displayName: 'React Pond Example',
+      version: '0.0.1'
+    }}
     onError={e => {
       setTimeout(() => location.reload(), 5000)
       return (

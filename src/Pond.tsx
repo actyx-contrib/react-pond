@@ -31,7 +31,7 @@ type PondProps = {
   /** Component to show during the connect (very shortly) */
   loadComponent?: JSX.Element
   /** Error callback the the pond is not able to reach actyxOS locally */
-  onError?: (error: unknown) => void | JSX.Element
+  onError: (error: unknown) => void | JSX.Element
   /**
    * Optionally change the Actyx endpoint the Pond connects to
    * and provide an error handler if the connection to Actyx is dropped.
@@ -48,7 +48,7 @@ type PondProps = {
    * Use `com.example.<somestring>` as `appId` for testing and development purposes,
    * so you don't require a signed certificate.
    * 
-   * Defaults to
+   * Example:
    * ```
    * {
    *   appId: 'com.example.react-pond-example',
@@ -57,14 +57,9 @@ type PondProps = {
    * }
    * ```
    * */
-  manifest?: AppManifest
+  manifest: AppManifest
 }
 
-const defaultManifest : AppManifest = {
-  appId: 'com.example.react-pond-example',
-  displayName: 'React Pond Example',
-  version: '0.0.1'
-}
 
 /** @internal */
 let singletonPond: PondType | undefined = undefined
@@ -141,7 +136,7 @@ export const Pond = ({
       return
     }
 
-    PondType.of(manifest || defaultManifest, connectionOpts || {}, opts || {})
+    PondType.of(manifest, connectionOpts || {}, opts || {})
       .then(p => {
         singletonPond = p
         setPond(p)
@@ -194,7 +189,7 @@ export const usePond = (): PondType => {
       `Your Application should be wrapped with one <Pond></Pond> tag on top level:
 
 ReactDOM.render(
-    <Pond>
+    <Pond manifest={...} onError={...}>
       <App />
     </Pond>,
     document.getElementById('root')!
