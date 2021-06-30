@@ -2907,7 +2907,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">Pond<wbr>Props<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>children<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ReactNode</span><span class="tsd-signature-symbol">; </span>connectionOpts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ActyxOpts</span><span class="tsd-signature-symbol">; </span>loadComponent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">JSX.Element</span><span class="tsd-signature-symbol">; </span>manifest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AppManifest</span><span class="tsd-signature-symbol">; </span>onError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">; </span>opts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PondOptions</span><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/Pond.tsx#L28">src/Pond.tsx:28</a></li>
+						<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/ab28b9b/src/Pond.tsx#L28">src/Pond.tsx:28</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3004,7 +3004,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">React<wbr>Fish&lt;State, Event, Props&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">; </span>run<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>eff<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">StateEffect</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">State</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">State</span><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/useFish.ts#L25">src/useFish.ts:25</a></li>
+						<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/ab28b9b/src/useFish.ts#L25">src/useFish.ts:25</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3086,7 +3086,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/Pond.tsx#L111">src/Pond.tsx:111</a></li>
+								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/ab28b9b/src/Pond.tsx#L119">src/Pond.tsx:119</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3097,7 +3097,15 @@ img {
 								<h2>Minimal example:</h2>
 							</a>
 							<pre><code class="language-js">ReactDOM.render(
-  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Pond</span> <span class="hljs-attr">onError</span>=<span class="hljs-string">{onError}</span>&gt;</span>
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Pond</span>
+    <span class="hljs-attr">onError</span>=<span class="hljs-string">{onError}</span>
+    <span class="hljs-attr">manifest</span>=<span class="hljs-string">{{</span>
+      <span class="hljs-attr">appId:</span> &#x27;<span class="hljs-attr">io.actyx.react-pond-example</span>&#x27;,
+      <span class="hljs-attr">displayName:</span> &#x27;<span class="hljs-attr">React</span> <span class="hljs-attr">Pond</span> <span class="hljs-attr">Example</span>&#x27;,
+      <span class="hljs-attr">version:</span> &#x27;<span class="hljs-attr">0.0.1</span>&#x27;,
+      <span class="hljs-attr">signature:</span> &#x27;<span class="hljs-attr">v2tz...JBPT3</span>/&#x27;
+    }}
+  &gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">Pond</span>&gt;</span></span>,
   <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;root&#x27;</span>)
@@ -3193,7 +3201,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/useFish.ts#L144">src/useFish.ts:144</a></li>
+								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/ab28b9b/src/useFish.ts#L144">src/useFish.ts:144</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3252,7 +3260,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/useFish.ts#L96">src/useFish.ts:96</a></li>
+								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/ab28b9b/src/useFish.ts#L96">src/useFish.ts:96</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3355,7 +3363,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/Pond.tsx#L185">src/Pond.tsx:185</a></li>
+								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/ab28b9b/src/Pond.tsx#L193">src/Pond.tsx:193</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3393,7 +3401,7 @@ waitForSwarmSync(params: WaitForSwarmSyncParams): <span class="hljs-built_in">vo
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/useRegistryFish.ts#L47">src/useRegistryFish.ts:47</a></li>
+								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/ab28b9b/src/useRegistryFish.ts#L47">src/useRegistryFish.ts:47</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
