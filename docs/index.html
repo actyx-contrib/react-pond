@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@actyx-contrib/react-pond - v3.0.0-beta1 | @actyx-contrib/react-pond - v3.0.0-beta1</title>
-	<meta name="description" content="Documentation for @actyx-contrib/react-pond - v3.0.0-beta1">
+	<title>@actyx-contrib/react-pond - v3.0.0 | @actyx-contrib/react-pond - v3.0.0</title>
+	<meta name="description" content="Documentation for @actyx-contrib/react-pond - v3.0.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
 /* ==========================================================================
@@ -2692,7 +2692,7 @@ img {
 		<div class="container">
 			<div class="table-wrap">
 				<div class="table-cell">
-					<strong><a href="index.html">@actyx-contrib/react-pond - v3.0.0-beta1</a></strong>
+					<strong><a href="index.html">@actyx-contrib/react-pond - v3.0.0</a></strong>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -2743,9 +2743,6 @@ img {
 		<li class=" tsd-kind-function tsd-has-type-parameter">
 			<a href="globals.html#useregistryfish" class="tsd-kind-icon">use<wbr>Registry<wbr>Fish</a>
 		</li>
-		<li class=" tsd-kind-object-literal">
-			<a href="globals.html#defaultmanifest" class="tsd-kind-icon">default<wbr>Manifest</a>
-		</li>
 	</ul>
 </nav>
 <div class="container container-main">
@@ -2778,6 +2775,11 @@ img {
 			</a>
 			<pre><code class="language-js">ReactDOM.render(
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Pond</span>
+    <span class="hljs-attr">manifest</span>=<span class="hljs-string">{{</span>
+      <span class="hljs-attr">appId:</span> &#x27;<span class="hljs-attr">com.example.react-pond-example</span>&#x27;,
+      <span class="hljs-attr">displayName:</span> &#x27;<span class="hljs-attr">React</span> <span class="hljs-attr">Pond</span> <span class="hljs-attr">Example</span>&#x27;,
+      <span class="hljs-attr">version:</span> &#x27;<span class="hljs-attr">0.0.1</span>&#x27;
+    }}
     <span class="hljs-attr">onError</span>=<span class="hljs-string">{()</span> =&gt;</span> {
       setTimeout(() =&gt; location.reload(), 5000)
       return <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Connection to Actyx rejected: {JSON.stringify(e)}. Next reconnect in 5 seconds.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
@@ -2853,16 +2855,24 @@ img {
 			<a href="#📖-example-2" id="📖-example-2" style="color: inherit; text-decoration: none;">
 				<h3>📖 Example</h3>
 			</a>
-			<pre><code class="language-js"><span class="hljs-keyword">const</span> Example = <span class="hljs-function">() =&gt;</span> {
+			<pre><code class="language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> App = <span class="hljs-function">() =&gt;</span> {
   <span class="hljs-keyword">const</span> pond = usePond()
-  <span class="hljs-keyword">const</span> [nodeConnectivity, setNodeConnectivity] = React.useState&lt;ConnectivityStatus&gt;()
+  <span class="hljs-keyword">const</span> { info, getPondState } = pond 
+  <span class="hljs-keyword">const</span> [pondState, setPondState] = React.useState&lt;PondState&gt;()
   React.useEffect(<span class="hljs-function">() =&gt;</span> {
-    pond.getNodeConnectivity({ <span class="hljs-attr">callback</span>: setNodeConnectivity })
+    getPondState(setPondState)
   }, [])
 
-  <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>{JSON.stringify(nodeConnectivity)}<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Pond State<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">pre</span>&gt;</span>{JSON.stringify(pondState, undefined, 2)}<span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">hr</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Pond Info<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">pre</span>&gt;</span>{JSON.stringify(info(), undefined, 2)}<span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  )
 }</code></pre>
 		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
@@ -2887,12 +2897,6 @@ img {
 							<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#useregistryfish" class="tsd-kind-icon">use<wbr>Registry<wbr>Fish</a></li>
 						</ul>
 					</section>
-					<section class="tsd-index-section ">
-						<h3>Object literals</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-object-literal"><a href="globals.html#defaultmanifest" class="tsd-kind-icon">default<wbr>Manifest</a></li>
-						</ul>
-					</section>
 				</div>
 			</section>
 		</section>
@@ -2901,10 +2905,10 @@ img {
 			<section class="tsd-panel tsd-member tsd-kind-type-alias">
 				<a name="pondprops" class="tsd-anchor"></a>
 				<h3>Pond<wbr>Props</h3>
-				<div class="tsd-signature tsd-kind-icon">Pond<wbr>Props<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>children<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ReactNode</span><span class="tsd-signature-symbol">; </span>connectionOpts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ActyxOpts</span><span class="tsd-signature-symbol">; </span>loadComponent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">JSX.Element</span><span class="tsd-signature-symbol">; </span>manifest<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">AppManifest</span><span class="tsd-signature-symbol">; </span>onError<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">; </span>opts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PondOptions</span><span class="tsd-signature-symbol"> }</span></div>
+				<div class="tsd-signature tsd-kind-icon">Pond<wbr>Props<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>children<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ReactNode</span><span class="tsd-signature-symbol">; </span>connectionOpts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ActyxOpts</span><span class="tsd-signature-symbol">; </span>loadComponent<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">JSX.Element</span><span class="tsd-signature-symbol">; </span>manifest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AppManifest</span><span class="tsd-signature-symbol">; </span>onError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">; </span>opts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PondOptions</span><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/64da69e/src/Pond.tsx#L28">src/Pond.tsx:28</a></li>
+						<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/Pond.tsx#L28">src/Pond.tsx:28</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -2942,14 +2946,14 @@ img {
 							</div>
 						</li>
 						<li class="tsd-parameter">
-							<h5><span class="tsd-flag ts-flagOptional">Optional</span> manifest<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">AppManifest</span></h5>
+							<h5>manifest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AppManifest</span></h5>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Manifest describing an Actyx application. Used for authorizing API access.
 										Use <code>com.example.&lt;somestring&gt;</code> as <code>appId</code> for testing and development purposes,
 									so you don&#39;t require a signed certificate.</p>
 								</div>
-								<p>Defaults to</p>
+								<p>Example:</p>
 								<pre><code>{
   <span class="hljs-attribute">appId</span>: <span class="hljs-string">&#x27;com.example.react-pond-example&#x27;</span>,
   displayName: <span class="hljs-string">&#x27;React Pond Example&#x27;</span>,
@@ -2958,12 +2962,30 @@ img {
 							</div>
 						</li>
 						<li class="tsd-parameter">
-							<h5><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Error<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">)</span></h5>
+							<h5>on<wbr>Error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span></h5>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Error callback the the pond is not able to reach actyxOS locally</p>
 								</div>
 							</div>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-signature">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>error: <span class="tsd-signature-type">unknown</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
 						<li class="tsd-parameter">
 							<h5><span class="tsd-flag ts-flagOptional">Optional</span> opts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PondOptions</span></h5>
@@ -2983,7 +3005,7 @@ img {
 				<div class="tsd-signature tsd-kind-icon">React<wbr>Fish&lt;State, Event, Props&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Props</span><span class="tsd-signature-symbol">; </span>run<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>eff<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">StateEffect</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">State</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Event</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">; </span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">State</span><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/64da69e/src/useFish.ts#L25">src/useFish.ts:25</a></li>
+						<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/useFish.ts#L25">src/useFish.ts:25</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -3059,13 +3081,13 @@ img {
 				<a name="pond" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagConst">Const</span> Pond</h3>
 				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">Pond<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>children<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReactNodeArray</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReactPortal</span><span class="tsd-signature-symbol">; </span>connectionOpts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>loadComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">; </span>manifest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>onError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">; </span>opts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>fishErrorReporter<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">FishErrorReporter</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span></li>
+					<li class="tsd-signature tsd-kind-icon">Pond<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>children<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReactNodeArray</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReactPortal</span><span class="tsd-signature-symbol">; </span>connectionOpts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>loadComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">; </span>manifest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>onError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">; </span>opts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>fishErrorReporter<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">FishErrorReporter</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/64da69e/src/Pond.tsx#L116">src/Pond.tsx:116</a></li>
+								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/Pond.tsx#L111">src/Pond.tsx:111</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3109,7 +3131,7 @@ img {
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>children<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReactNodeArray</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReactPortal</span><span class="tsd-signature-symbol">; </span>connectionOpts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>loadComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">; </span>manifest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>onError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">; </span>opts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>fishErrorReporter<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">FishErrorReporter</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></h5>
+								<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>children<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">P</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReactNodeArray</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ReactPortal</span><span class="tsd-signature-symbol">; </span>connectionOpts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>loadComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">; </span>manifest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>onError<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">; </span>opts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>fishErrorReporter<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">FishErrorReporter</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> }</span></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>reactProperties for the pond @see PondProps</p>
@@ -3126,10 +3148,30 @@ img {
 										<h5>load<wbr>Component<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span></h5>
 									</li>
 									<li class="tsd-parameter">
-										<h5>manifest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></h5>
+										<h5>manifest<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></h5>
+										<ul class="tsd-parameters">
+										</ul>
 									</li>
 									<li class="tsd-parameter">
-										<h5>on<wbr>Error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span><span class="tsd-signature-symbol">)</span></h5>
+										<h5>on<wbr>Error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span></h5>
+										<ul class="tsd-parameters">
+											<li class="tsd-parameter-signature">
+												<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable">
+													<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span></li>
+												</ul>
+												<ul class="tsd-descriptions">
+													<li class="tsd-description">
+														<h4 class="tsd-parameters-title">Parameters</h4>
+														<ul class="tsd-parameters">
+															<li>
+																<h5>error: <span class="tsd-signature-type">unknown</span></h5>
+															</li>
+														</ul>
+														<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span></h4>
+													</li>
+												</ul>
+											</li>
+										</ul>
 									</li>
 									<li class="tsd-parameter">
 										<h5>opts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>fishErrorReporter<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">FishErrorReporter</span><span class="tsd-signature-symbol"> }</span></h5>
@@ -3152,7 +3194,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/64da69e/src/useFish.ts#L144">src/useFish.ts:144</a></li>
+								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/useFish.ts#L144">src/useFish.ts:144</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3211,7 +3253,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/64da69e/src/useFish.ts#L96">src/useFish.ts:96</a></li>
+								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/useFish.ts#L96">src/useFish.ts:96</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3314,7 +3356,7 @@ img {
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/64da69e/src/Pond.tsx#L190">src/Pond.tsx:190</a></li>
+								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/Pond.tsx#L185">src/Pond.tsx:185</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3352,7 +3394,7 @@ waitForSwarmSync(params: WaitForSwarmSyncParams): <span class="hljs-built_in">vo
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/64da69e/src/useRegistryFish.ts#L47">src/useRegistryFish.ts:47</a></li>
+								<li>Defined in <a href="https://github.com/Actyx-contrib/react-pond/blob/c1e5702/src/useRegistryFish.ts#L47">src/useRegistryFish.ts:47</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -3457,49 +3499,6 @@ waitForSwarmSync(params: WaitForSwarmSyncParams): <span class="hljs-built_in">vo
 						<p>ReactFish[] entities of the registry</p>
 					</li>
 				</ul>
-			</section>
-		</section>
-		<section class="tsd-panel-group tsd-member-group ">
-			<h2>Object literals</h2>
-			<section class="tsd-panel tsd-member tsd-kind-object-literal">
-				<a name="defaultmanifest" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagConst">Const</span> default<wbr>Manifest</h3>
-				<div class="tsd-signature tsd-kind-icon">default<wbr>Manifest<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-				<aside class="tsd-sources">
-					<ul>
-						<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/64da69e/src/Pond.tsx#L63">src/Pond.tsx:63</a></li>
-					</ul>
-				</aside>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-					<a name="defaultmanifest.appid" class="tsd-anchor"></a>
-					<h3>app<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">app<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;com.example.react-pond-example&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/64da69e/src/Pond.tsx#L64">src/Pond.tsx:64</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-					<a name="defaultmanifest.displayname" class="tsd-anchor"></a>
-					<h3>display<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">display<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;React Pond Example&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/64da69e/src/Pond.tsx#L65">src/Pond.tsx:65</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-					<a name="defaultmanifest.version" class="tsd-anchor"></a>
-					<h3>version</h3>
-					<div class="tsd-signature tsd-kind-icon">version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;0.0.1&quot;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/actyx-contrib/react-pond/blob/64da69e/src/Pond.tsx#L66">src/Pond.tsx:66</a></li>
-						</ul>
-					</aside>
-				</section>
 			</section>
 		</section>
 		<footer class="with-border-bottom">
