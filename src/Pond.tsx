@@ -70,7 +70,15 @@ let singletonPond: PondType | undefined = undefined
  * ## Minimal example:
  * ```js
  * ReactDOM.render(
- *   <Pond onError={onError}>
+ *   <Pond 
+ *     onError={onError}
+ *     manifest={{
+ *       appId: 'io.actyx.react-pond-example',
+ *       displayName: 'React Pond Example',
+ *       version: '0.0.1',
+ *       signature: 'v2tz...JBPT3/'
+ *     }}
+ *   >
  *     <App />
  *   </Pond>,
  *   document.getElementById('root')
