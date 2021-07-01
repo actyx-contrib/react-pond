@@ -38,7 +38,7 @@ type PondProps = {
    * Defaults to `{}`
    * */
   connectionOpts?: ActyxOpts
-  /** 
+  /**
    * Advanced Pond configuration options.
    * Defaults to `{}`
    *  */
@@ -47,7 +47,7 @@ type PondProps = {
    * Manifest describing an Actyx application. Used for authorizing API access.
    * Use `com.example.<somestring>` as `appId` for testing and development purposes,
    * so you don't require a signed certificate.
-   * 
+   *
    * Example:
    * ```
    * {
@@ -60,7 +60,6 @@ type PondProps = {
   manifest: AppManifest
 }
 
-
 /** @internal */
 let singletonPond: PondType | undefined = undefined
 
@@ -70,7 +69,7 @@ let singletonPond: PondType | undefined = undefined
  * ## Minimal example:
  * ```js
  * ReactDOM.render(
- *   <Pond 
+ *   <Pond
  *     onError={onError}
  *     manifest={{
  *       appId: 'io.actyx.react-pond-example',
@@ -84,7 +83,7 @@ let singletonPond: PondType | undefined = undefined
  *   document.getElementById('root')
  * )
  * ```
- * 
+ *
  * ## Complete example:
  * ```js
  * ReactDOM.render(
@@ -198,10 +197,10 @@ export const usePond = (): PondType => {
       `Your Application should be wrapped with one <Pond></Pond> tag on top level:
 
 ReactDOM.render(
-    <Pond manifest={...} onError={...}>
-      <App />
-    </Pond>,
-    document.getElementById('root')!
+  <Pond manifest={...} onError={...}>
+    <App />
+  </Pond>,
+  document.getElementById('root')!
 )
 `
     )
