@@ -29,6 +29,11 @@ Wrap your application with the `<Pond>` to use you fish everywhere in the code.
 ```js
 ReactDOM.render(
   <Pond
+    manifest={{
+      appId: 'com.example.react-pond-example',
+      displayName: 'React Pond Example',
+      version: '0.0.1'
+    }}
     onError={() => {
       setTimeout(() => location.reload(), 5000)
       return <div>Connection to Actyx rejected: {JSON.stringify(e)}. Next reconnect in 5 seconds.</div>
@@ -109,15 +114,23 @@ The pond is not hidden from you. Use it as usual with `const pond = usePond()`.
 ### 📖 Example
 
 ```js
-const Example = () => {
+export const App = () => {
   const pond = usePond()
-  const [nodeConnectivity, setNodeConnectivity] = React.useState<ConnectivityStatus>()
+  const { info, getPondState } = pond 
+  const [pondState, setPondState] = React.useState<PondState>()
   React.useEffect(() => {
-    pond.getNodeConnectivity({ callback: setNodeConnectivity })
+    getPondState(setPondState)
   }, [])
 
-  return <div>
-    <div>{JSON.stringify(nodeConnectivity)}</div>
-  </div>
+  return (
+    <div>
+      <hr />
+      <h3>Pond State</h3>
+      <pre>{JSON.stringify(pondState, undefined, 2)}</pre>
+      <hr />
+      <h3>Pond Info</h3>
+      <pre>{JSON.stringify(info(), undefined, 2)}</pre>
+    </div>
+  )
 }
 ```
