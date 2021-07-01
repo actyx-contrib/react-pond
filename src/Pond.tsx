@@ -88,7 +88,6 @@ let singletonPond: PondType | undefined = undefined
  * ## Complete example:
  * ```js
  * ReactDOM.render(
-<<<<<<< HEAD
  *   <Pond
  *     onError={onError}
  *     manifest={{
@@ -105,23 +104,6 @@ let singletonPond: PondType | undefined = undefined
  *     opts={{
  *       fishErrorReporter: fishErrorReporter
  *     }}
-=======
- *   <Pond onError={onError}
- *    manifest={{
- *     appId: 'io.actyx.react-pond-example',
- *     displayName: 'React Pond Example',
- *     version: '0.0.1',
- *     signature: 'v2tz...JBPT3/'
- *   }}
- *   connectionOpts={{
- *     actyxHost: 'localhost',
- *     actyxPort: 4232,
- *     onConnectionLost: onConnectionLostHandler
- *   }}
- *   opts={{
- *     fishErrorReporter: fishErrorReporter
- *   }}
->>>>>>> 7acb4402f72ed8cfe6a61a0f743ad97b5c72783c
  *   >
  *     <App />
  *   </Pond>,
