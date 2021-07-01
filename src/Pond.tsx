@@ -96,7 +96,7 @@ let singletonPond: PondType | undefined = undefined
  *     signature: 'v2tz...JBPT3/'
  *   }}
  *   connectionOpts={{
- *     actyxHost: 'actyx',
+ *     actyxHost: 'localhost',
  *     actyxPort: 4232,
  *     onConnectionLost: onConnectionLostHandler
  *   }}
