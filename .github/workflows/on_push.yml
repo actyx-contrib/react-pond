@@ -20,8 +20,8 @@ jobs:
         run: npm run license:check-dep
       - name: run linter check
         run: npm run lint
-      - name: run jest test
-        run: npm run test
+      # - name: run jest test
+      #   run: npm run test
   examples:
     name: Examples
     runs-on: ubuntu-latest
