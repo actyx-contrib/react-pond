@@ -7,6 +7,9 @@
     ".loki",
     "bin/",
     "lib/",
+    ".github",
+    "docs",
+    "hooks",
     "coverage/",
     "add-license-text"
   ],
