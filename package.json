@@ -18,9 +18,12 @@
     "lint:fix": "tsc & eslint './src/**/*.{js,ts,tsx}' --fix & prettier './src/**/*.{js,ts,tsx}' --write",
     "license:add": "license-check-and-add add -f add-license-config.json",
     "license:check": "license-check-and-add check -f add-license-config.json",
-    "license:check-dep": "license-checker --production --onlyAllow 'MIT; MIT OR X11; BSD; ISC; Apache-2.0;'",
+    "license:check-dep": "license-checker --production --onlyAllow 'MIT; MIT OR X11; BSD; ISC; Apache-2.0;' --excludePackages '@actyx/sdk@0.1.2;@actyx/pond@3.0.1;'",
     "example:usePond": "parcel example/usePond.html",
-    "example:chatRoom": "parcel example/chatRoom.html"
+    "example:chatRoom": "parcel example/chatRoom.html",
+    "examples:build": "npm run example:usePond:build && npm run example:chatRoom:build",
+    "example:usePond:build": "parcel build --no-source-maps --no-autoinstall --out-dir ./dist/usePond example/usePond.html",
+    "example:chatRoom:build": "parcel build --no-source-maps --no-autoinstall --out-dir ./dist/chatRoom example/chatRoom.html"
   },
   "author": "Actyx AG",
   "license": "Apache-2.0",
