@@ -6,6 +6,7 @@
   "types": "./lib/index.d.ts",
   "repository": "https://github.com/actyx-contrib/react-pond",
   "scripts": {
+    "setupGitHooks": "ln -srd ./hooks ./.git/hooks || true",
     "prepack": "npm run build:doc && npm run build",
     "clean": "rimraf ./lib ./coverage ./dist ./.cache",
     "tsc": "tsc",
