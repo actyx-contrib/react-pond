@@ -1,0 +1,18 @@
+#!/usr/bin/sh
+
+cat <<\EOF
+Execute pre commit script:
+ - npm run lint:fix
+ - npm run build
+ - npm run build:doc
+EOF
+
+echo "(1/4) npm run lint:fix"
+npm run lint:fix
+echo "(2/4) npm run build"
+npm run build
+echo "(3/4) npm run build:doc"
+npm run build:doc
+echo "(4/4) git add docs"
+git add docs
+

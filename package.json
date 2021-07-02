@@ -6,6 +6,7 @@
   "types": "./lib/index.d.ts",
   "repository": "https://github.com/actyx-contrib/react-pond",
   "scripts": {
+    "setupGitHooks": "ln -srd ./hooks ./.git/hooks || true",
     "prepack": "npm run build:doc && npm run build",
     "clean": "rimraf ./lib ./coverage ./dist ./.cache",
     "tsc": "tsc",
@@ -17,9 +18,12 @@
     "lint:fix": "tsc & eslint './src/**/*.{js,ts,tsx}' --fix & prettier './src/**/*.{js,ts,tsx}' --write",
     "license:add": "license-check-and-add add -f add-license-config.json",
     "license:check": "license-check-and-add check -f add-license-config.json",
-    "license:check-dep": "license-checker --production --onlyAllow 'MIT; MIT OR X11; BSD; ISC; Apache-2.0;'",
+    "license:check-dep": "license-checker --production --onlyAllow 'MIT; MIT OR X11; BSD; ISC; Apache-2.0;' --excludePackages '@actyx/sdk@0.1.2;@actyx/pond@3.0.1;'",
     "example:usePond": "parcel example/usePond.html",
-    "example:chatRoom": "parcel example/chatRoom.html"
+    "example:chatRoom": "parcel example/chatRoom.html",
+    "examples:build": "npm run example:usePond:build && npm run example:chatRoom:build",
+    "example:usePond:build": "parcel build --no-source-maps --no-autoinstall --out-dir ./dist/usePond example/usePond.html",
+    "example:chatRoom:build": "parcel build --no-source-maps --no-autoinstall --out-dir ./dist/chatRoom example/chatRoom.html"
   },
   "author": "Actyx AG",
   "license": "Apache-2.0",
@@ -27,7 +31,7 @@
     "@actyx/pond": "3"
   },
   "devDependencies": {
-    "@actyx/pond": "^3.0.0",
+    "@actyx/pond": "^3.0.1",
     "@types/deep-equal": "^1.0.1",
     "@types/react": "^16.9.43",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
@@ -37,6 +41,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
     "license-check-and-add": "^3.0.4",
+    "license-checker": "^25.0.1",
     "parcel": "^1.12.4",
     "prettier": "^1.19.1",
     "react": "^16.13.1",

@@ -17,5 +17,6 @@ example
 add-license-text
 .editorconfig
 icon.png
+hooks
 docs
 dist
