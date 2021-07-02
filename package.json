@@ -41,6 +41,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
     "license-check-and-add": "^3.0.4",
+    "license-checker": "^25.0.1",
     "parcel": "^1.12.4",
     "prettier": "^1.19.1",
     "react": "^16.13.1",
