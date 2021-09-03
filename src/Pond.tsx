@@ -144,7 +144,12 @@ export const Pond = ({
       return
     }
 
-    PondType.of(manifest, connectionOpts || {}, opts || {})
+    const conOps = {
+      onConnectionLost: () => onError && onError('actyx - connection lost'),
+      ...connectionOpts
+    }
+
+    PondType.of(manifest, conOps, opts || {})
       .then(p => {
         singletonPond = p
         setPond(p)
